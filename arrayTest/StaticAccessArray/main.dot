@@ -1,0 +1,175 @@
+digraph "CFG for'main' function" {
+	BB0 [shape=record, label="{BB0:\l\l  %retval = alloca i32, align 4\l
+  %local1 = alloca i32, align 4\l
+  %local2 = alloca i32, align 4\l
+  %localArray = alloca [10 x i32], align 16\l
+  %i = alloca i32, align 4\l
+  %i49 = alloca i32, align 4\l
+  store i32 0, i32* %retval, align 4\l
+  %call = call i64 @time(i64* null) #3\l
+  %conv = trunc i64 %call to i32\l
+  call void @srand(i32 %conv) #3\l
+  %call1 = call i32 @rand() #3\l
+  %rem = srem i32 %call1, 100\l
+  store i32 %rem, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
+  %call2 = call i32 @rand() #3\l
+  %rem3 = srem i32 %call2, 100\l
+  store i32 %rem3, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 2), align 4\l
+  %call4 = call i32 @rand() #3\l
+  %rem5 = srem i32 %call4, 100\l
+  store i32 %rem5, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  %call6 = call i32 @rand() #3\l
+  %rem7 = srem i32 %call6, 100\l
+  store i32 %rem7, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 0), align 4\l
+  %call8 = call i32 @rand() #3\l
+  %rem9 = srem i32 %call8, 100\l
+  store i32 %rem9, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 1), align 4\l
+  %call10 = call i32 @rand() #3\l
+  %rem11 = srem i32 %call10, 100\l
+  store i32 %rem11, i32* @var1, align 4\l
+  %call12 = call i32 @rand() #3\l
+  %rem13 = srem i32 %call12, 100\l
+  store i32 %rem13, i32* @var2, align 4\l
+  %call14 = call i32 @rand() #3\l
+  %rem15 = srem i32 %call14, 100\l
+  store i32 %rem15, i32* @var3, align 4\l
+  %call16 = call i32 @rand() #3\l
+  %rem17 = srem i32 %call16, 100\l
+  store i32 %rem17, i32* %local1, align 4\l
+  %call18 = call i32 @rand() #3\l
+  %rem19 = srem i32 %call18, 100\l
+  store i32 %rem19, i32* %local2, align 4\l
+  store i32 0, i32* %i, align 4\l
+  br label %for.cond\l
+}"];
+	BB0-> BB1;
+	BB1 [shape=record, label="{BB1:\l\l  %0 = load i32, i32* %i, align 4\l
+  %cmp = icmp slt i32 %0, 40000\l
+  br i1 %cmp, label %for.body, label %for.end\l
+}"];
+	BB1-> BB2;
+	BB1-> BB3;
+	BB2 [shape=record, label="{BB2:\l\l  %1 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 2), align 4\l
+  %mul = mul nsw i32 %1, 3\l
+  %2 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  %div = sdiv i32 %2, 2\l
+  %sub = sub nsw i32 %mul, %div\l
+  store i32 %sub, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
+  %3 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
+  %4 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 2), align 4\l
+  %add = add nsw i32 %3, %4\l
+  %rem21 = srem i32 %add, 100\l
+  store i32 %rem21, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  %5 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  %or = or i32 %5, 1\l
+  %6 = load i32, i32* %local1, align 4\l
+  %add22 = add nsw i32 %or, %6\l
+  store i32 %add22, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 2), align 4\l
+  %7 = load i32, i32* %i, align 4\l
+  %rem23 = srem i32 %7, 100\l
+  %cmp24 = icmp eq i32 %rem23, 0\l
+  br i1 %cmp24, label %if.then, label %if.end\l
+}"];
+	BB2-> BB4;
+	BB2-> BB5;
+	BB4 [shape=record, label="{BB4:\l\l  %8 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 0), align 4\l
+  %9 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 1), align 4\l
+  %add26 = add nsw i32 %8, %9\l
+  %10 = load i32, i32* %local2, align 4\l
+  %mul27 = mul nsw i32 %add26, %10\l
+  store i32 %mul27, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 2), align 4\l
+  %11 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 2), align 4\l
+  %shr = ashr i32 %11, 1\l
+  %12 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
+  %add28 = add nsw i32 %shr, %12\l
+  store i32 %add28, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 0), align 4\l
+  %13 = load i32, i32* %local1, align 4\l
+  %call29 = call i32 @rand() #3\l
+  %rem30 = srem i32 %call29, 5\l
+  %add31 = add nsw i32 %13, %rem30\l
+  %rem32 = srem i32 %add31, 100\l
+  store i32 %rem32, i32* %local2, align 4\l
+  %14 = load i32, i32* %local2, align 4\l
+  %arrayidx = getelementptr inbounds [10 x i32], [10 x i32]* %localArray, i64 0, i64 0\l
+  %15 = load i32, i32* %arrayidx, align 16\l
+  %add33 = add nsw i32 %15, %14\l
+  store i32 %add33, i32* %arrayidx, align 16\l
+  br label %if.end\l
+}"];
+	BB4-> BB5;
+	BB5 [shape=record, label="{BB5:\l\l  %16 = load i32, i32* %i, align 4\l
+  %rem34 = srem i32 %16, 1000\l
+  %cmp35 = icmp eq i32 %rem34, 0\l
+  br i1 %cmp35, label %if.then37, label %if.end45\l
+}"];
+	BB5-> BB6;
+	BB5-> BB7;
+	BB6 [shape=record, label="{BB6:\l\l  %17 = load i32, i32* @var1, align 4\l
+  %18 = load i32, i32* @var2, align 4\l
+  %add38 = add nsw i32 %17, %18\l
+  %19 = load i32, i32* @var3, align 4\l
+  %mul39 = mul nsw i32 %add38, %19\l
+  store i32 %mul39, i32* @var4, align 4\l
+  %20 = load i32, i32* @var6, align 4\l
+  %21 = load i32, i32* @var7, align 4\l
+  %xor = xor i32 %20, %21\l
+  %22 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 1), align 4\l
+  %add40 = add nsw i32 %xor, %22\l
+  store i32 %add40, i32* @var5, align 4\l
+  %23 = load i32, i32* @var5, align 4\l
+  %rem41 = srem i32 %23, 10\l
+  %call42 = call i32 @rand() #3\l
+  %rem43 = srem i32 %call42, 5\l
+  %add44 = add nsw i32 %rem41, %rem43\l
+  store i32 %add44, i32* @var1, align 4\l
+  br label %if.end45\l
+}"];
+	BB6-> BB7;
+	BB7 [shape=record, label="{BB7:\l\l  br label %for.inc\l
+}"];
+	BB7-> BB8;
+	BB8 [shape=record, label="{BB8:\l\l  %24 = load i32, i32* %i, align 4\l
+  %inc = add nsw i32 %24, 1\l
+  store i32 %inc, i32* %i, align 4\l
+  br label %for.cond\l
+}"];
+	BB8-> BB1;
+	BB3 [shape=record, label="{BB3:\l\l  %25 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
+  %26 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 2), align 4\l
+  %27 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  %call46 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([32 x i8], [32 x i8]* @.str, i32 0, i32 0), i32 %25, i32 %26, i32 %27)\l
+  %28 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 0), align 4\l
+  %29 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 1), align 4\l
+  %30 = load i32, i32* getelementptr inbounds (%struct.anon.0, %struct.anon.0* @mid_vars, i32 0, i32 2), align 4\l
+  %call47 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([31 x i8], [31 x i8]* @.str.1, i32 0, i32 0), i32 %28, i32 %29, i32 %30)\l
+  %31 = load i32, i32* @var4, align 4\l
+  %32 = load i32, i32* @var5, align 4\l
+  %call48 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([32 x i8], [32 x i8]* @.str.2, i32 0, i32 0), i32 %31, i32 %32)\l
+  store i32 0, i32* %i49, align 4\l
+  br label %for.cond50\l
+}"];
+	BB3-> BB9;
+	BB9 [shape=record, label="{BB9:\l\l  %33 = load i32, i32* %i49, align 4\l
+  %cmp51 = icmp slt i32 %33, 10\l
+  br i1 %cmp51, label %for.body53, label %for.end58\l
+}"];
+	BB9-> BB10;
+	BB9-> BB11;
+	BB10 [shape=record, label="{BB10:\l\l  %34 = load i32, i32* %i49, align 4\l
+  %35 = load i32, i32* %i49, align 4\l
+  %idxprom = sext i32 %35 to i64\l
+  %arrayidx54 = getelementptr inbounds [10 x i32], [10 x i32]* %localArray, i64 0, i64 %idxprom\l
+  %36 = load i32, i32* %arrayidx54, align 4\l
+  %call55 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str.3, i32 0, i32 0), i32 %34, i32 %36)\l
+  br label %for.inc56\l
+}"];
+	BB10-> BB12;
+	BB12 [shape=record, label="{BB12:\l\l  %37 = load i32, i32* %i49, align 4\l
+  %inc57 = add nsw i32 %37, 1\l
+  store i32 %inc57, i32* %i49, align 4\l
+  br label %for.cond50\l
+}"];
+	BB12-> BB9;
+	BB11 [shape=record, label="{BB11:\l\l  ret i32 0\l
+}"];
+}

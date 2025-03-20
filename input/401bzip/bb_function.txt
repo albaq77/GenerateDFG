@@ -1,0 +1,1 @@
+BZ2_decompress BZ2_hbCreateDecodeTables main ioError outOfMemory default_bzalloc add_pair_to_block spec_ungetc bsPutUInt32 mainGtU compressStream BZ2_compressBlock BZ2_bzReadOpen BZ2_bzReadClose fallbackSort configError panic cleanUpAndFail sendMTFValues handle_compress uncompressStream BZ2_bzWriteClose64 default_bzfree 
