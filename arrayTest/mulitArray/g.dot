@@ -1,0 +1,7 @@
+digraph "CFG for'g' function" {
+	BB3 [shape=record, label="{BB3:\l\l  %call = call i32 @rand() #3\l
+  %rem = srem i32 %call, 100\l
+  store i32 %rem, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 4), align 4\l
+  ret void\l
+}"];
+}
