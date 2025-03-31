@@ -1,0 +1,10 @@
+strict digraph {
+  1 [label="i32* @hot_data.0", size=32, color=blue, shape=record];
+  2 [label="i32* @hot_data.2", size=32, color=blue, shape=record];
+  3 [label="i32* @hot_data.4", size=32, color=blue, shape=record];
+  2 -> 3 [label="weight=160000", weight="160000"];
+  2 -> 1 [label="weight=79999", weight="79999"];
+  1 -> 2 [label="weight=40001", weight="40001"];
+  3 -> 1 [label="weight=40000", weight="40000"];
+  3 -> 2 [label="weight=40000", weight="40000"];
+}
