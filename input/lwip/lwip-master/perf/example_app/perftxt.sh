@@ -1,0 +1,1 @@
+perf script -i perf.data > perf.txt

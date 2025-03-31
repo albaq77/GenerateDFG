@@ -1,0 +1,26 @@
+{
+  "main*0": [
+    "i32* @hot_data.0",
+    "i32* @hot_data.2",
+    "i32* @hot_data.4"
+  ],
+  "main*1": [],
+  "main*2": [],
+  "main*3": [
+    "i32* @hot_data.2",
+    "i32* @hot_data.4",
+    "i32* @hot_data.0",
+    "i32* @hot_data.0",
+    "i32* @hot_data.2",
+    "i32* @hot_data.4",
+    "i32* @hot_data.2"
+  ],
+  "main*4": [],
+  "main*5": [],
+  "main*6": [],
+  "main*7": [
+    "i32* @hot_data.0",
+    "i32* @hot_data.2",
+    "i32* @hot_data.4"
+  ]
+}
