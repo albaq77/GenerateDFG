@@ -84,7 +84,7 @@ def build_variable_graph(bb_vars, exec_sequence):
 
 
 
-def export_bbvars_to_file(bb_vars, output_path):
+def export_to_file(bb_vars, output_path):
     """将基本块变量信息写入指定文件"""
     try:
         with open(output_path, 'w', encoding='utf-8') as f:
@@ -104,16 +104,16 @@ def main():
     try:
 
         # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlock.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlock.txt', 'r') as f:
             cfg_content = f.read()
         
         # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlockNum.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
         # 处理数据
 
         bb_vars = parse_bb_variables(cfg_content)
-        export_bbvars_to_file(bb_vars, "./bb_vars.json")
+        export_to_file(bb_vars, "./globalAndPart.json")
         exec_sequence = parse_execution_sequence(exec_content)
         edge_weights = build_variable_graph(bb_vars, exec_sequence)
 
