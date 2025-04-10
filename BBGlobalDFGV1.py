@@ -1,6 +1,7 @@
 import re
 import logging
 import json
+import math
 from collections import defaultdict
 
 def process_sizes(sizes_file):
@@ -46,7 +47,6 @@ def parse_bb_variables(cfg_str, struct_size):
             var_match = var_pattern.search(line)
             if var_match:
                 size = -1
-                isLoad = ' = load ' in line
                 var = var_match.group(1).strip()
                 # 使用正则表达式截取第一个逗号到 align 前的内容
                 # store  <4 x i32> <i32 767, i32 0, i32 0, i32 33554432>, <4 x i32>*
@@ -65,16 +65,16 @@ def parse_bb_variables(cfg_str, struct_size):
                 else:    
                     var = re.search(r',\s*(.*?),\s*align', var)
                     var = var.group(1).strip()
-                    match = re.search(r'(\bi\d+\*)', var)
+                    match = re.search(r'\bi\d+\*(?!\*)', var)
                     if match:
-                        type_info = match.group(1)
+                        type_info = match.group(0)
                         # 提取大小信息
                         size = int(type_info.lstrip('i').rstrip('*'))
 
                 #(i + number + *) getelementptr inbounds (*)
-                if ('getelementptr inbounds' in var) and isLoad:
+                if 'getelementptr inbounds' in var:
                      # 匹配 i64* getelementptr inbounds 后第一个括号内的内容
-                     pattern = r'(\bi\d+\*)\s+getelementptr inbounds\s*\((.*?)\)'
+                     pattern = r'(\bi\d+\*(?!\*))\s+getelementptr inbounds\s*\((.*?)\)'
                      match = re.search(pattern, var)
                      if match:
                         # 提取 getelementptr inbounds 部分
@@ -83,7 +83,16 @@ def parse_bb_variables(cfg_str, struct_size):
                         type_info = match.group(1)
                         # 提取大小信息
                         size = int(type_info.lstrip('i').rstrip('*'))
-
+                else:
+                    # 正则表达式模式
+                    pattern = r'@([\w\d_.]+)'
+                    # 使用 re.search 找到第一个匹配
+                    match = re.findall(pattern, var)
+                    if match:
+                        # 提取匹配的名称
+                        stutsize = struct_size.get('@' + match[0])
+                        if stutsize is not None:
+                            size = stutsize * 8
                 # remove temp var
                 if re.search(r'\*\s*%\d+$', var):
                     continue
@@ -91,14 +100,8 @@ def parse_bb_variables(cfg_str, struct_size):
 
                 # compute size
                 if (size != -1):
-                    size = int(size / 8)
-                else:
-                    pattern = r'%struct\.\w+\*\*\s+@([\w\d_.]+)'
-                    match = re.findall(pattern, var)
-                    if match:
-                        stutsize = struct_size.get('@' + match[0])
-                        if stutsize is not None:
-                            size = stutsize
+                    size = math.ceil(size / 8)
+
                 var_size[var] = size
 
         # 构建字典键
@@ -165,13 +168,12 @@ def generate_dot(edge_weights, var_size):
     dot.append("}")
     return '\n'.join(dot)
 
-def export_bbvars_to_file(bb_vars, output_path):
+def export_to_file(bb_vars, output_path):
     """将基本块变量信息写入指定文件"""
     try:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(bb_vars, f, indent=2, ensure_ascii=False)
             logging.info(f"成功写入JSON文件：{output_path}")
-
             
     except IOError as e:
         logging.error(f"文件写入失败：{str(e)}")
@@ -184,21 +186,22 @@ def main():
     
     try:
 
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/GlobalAndStructSizes.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
         # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlock.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlock.txt', 'r') as f:
             cfg_content = f.read()
         
         # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlockNum.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
         # 处理数据
 
         struct_size = process_sizes(sizes_file)
         bb_vars, var_size = parse_bb_variables(cfg_content, struct_size)
-        export_bbvars_to_file(bb_vars, "./bb_vars.json")
+        export_to_file(bb_vars, "./bb_vars.json")
+        export_to_file(var_size, "./var_size.json")
         exec_sequence = parse_execution_sequence(exec_content)
         edge_weights = build_variable_graph(bb_vars, exec_sequence)
 

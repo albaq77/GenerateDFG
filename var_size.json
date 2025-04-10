@@ -1,0 +1,23 @@
+{
+  "i32* @_ZL5nproc": 4,
+  "i1* @_ZZ7pspeedyP6PointsfPliP16parsec_barrier_tE4open": 1,
+  "i32* @_ZZ7pspeedyP6PointsfPliP16parsec_barrier_tE1i": 4,
+  "i64* @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE1k": 8,
+  "i8** bitcast (double** @_ZZ7pspeedyP6PointsfPliP16parsec_barrier_tE5costs to i8**)": 8,
+  "double** @_ZZ7pspeedyP6PointsfPliP16parsec_barrier_tE5costs": 8,
+  "double* @_ZZ7pspeedyP6PointsfPliP16parsec_barrier_tE9totalcost": 8,
+  "i8** bitcast (double** @_ZZ5pgainlP6PointsdPliP16parsec_barrier_tE8work_mem to i8**)": 8,
+  "double* @_ZZ5pgainlP6PointsdPliP16parsec_barrier_tE20gl_cost_of_opening_x": 8,
+  "i32* @_ZZ5pgainlP6PointsdPliP16parsec_barrier_tE29gl_number_of_centers_to_close": 4,
+  "i8** @_ZL9is_center": 8,
+  "i32** @_ZL12center_table": 8,
+  "double** @_ZZ5pgainlP6PointsdPliP16parsec_barrier_tE8work_mem": 8,
+  "i8** @_ZL17switch_membership": 8,
+  "i8** bitcast (double** @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE4hizs to i8**)": 8,
+  "double** @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE4hizs": 8,
+  "i8** bitcast (i32** @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE8feasible to i8**)": 8,
+  "i32** @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE8feasible": 8,
+  "i32* @_ZZ8pkmedianP6PointsllPliP16parsec_barrier_tE11numfeasible": 4,
+  "%struct._IO_FILE** @stderr": 8,
+  "i8** bitcast (i32** @_ZL12center_table to i8**)": 8
+}
