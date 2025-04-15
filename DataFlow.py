@@ -5,17 +5,14 @@ import subprocess
 import logging
 import re
 import json
-from collections import defaultdict
-import time
-import signal
+from collections import defaultdict, OrderedDict
 import math
 
 # 配置路径
 INPUT_DIR = './input'
 OUTPUT_DIR = './output'
 BRANCHER_PATH = "./brancher"
-EXAMPLE_APP = "./streamcluster 10 20 128 16384 16384 1000 none output.txt 4"
-RECORD = './record.sh'
+EXAMPLE_APP = "./structArray"
 BB_VARS = os.path.join(OUTPUT_DIR, "bb_vars.json")
 VAR_SIZE = os.path.join(OUTPUT_DIR, "var_size.json")
 PERF_DATA_FILE = "perf.data"
@@ -44,16 +41,18 @@ def perform_perf_record():
     """使用 brancher 进行 perf 采集"""
     try:
         os.makedirs(OUTPUT_DIR, exist_ok=True)
+
         # 使用 brancher 记录 perf 数据
         logging.info("开始 perf 数据采集...")
         subprocess.run(f"sudo {BRANCHER_PATH} record '{EXAMPLE_APP}' ", shell=True, check=True)
         # 将 perf.data 转换为 perf.txt
         logging.info("转换 perf 数据...")
-        subprocess.run(f"sudo perf script -i {PERF_DATA_FILE} > {PERF_TXT_FILE}", shell=True, check=True)
+        shutil.move("perf.txt", PERF_TXT_FILE)
         logging.info("perf 数据采集和转换完成。")
 
     except subprocess.CalledProcessError as e:
         logging.error(f"Brancher record failed: {str(e)}")
+        shutil.move("perf.txt", PERF_TXT_FILE)
 
 def parse_funs(cfg_str):
     functions = set()
@@ -199,23 +198,31 @@ def parse_execution_sequence(seq_str):
     clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str)
     return re.findall(r'(\w+\*\d+)', clean_str)
 
-def build_variable_graph(bb_vars, exec_sequence):
+def build_variable_graph(bb_vars, exec_sequence, window_size=10):
+    """构建变量访问图并计算权重"""
     edge_weights = defaultdict(int)
-    last_vars = []
+    weight_window = OrderedDict()  # 使用 OrderedDict 保证顺序
+
     for bb in exec_sequence:
-        current_vars = bb_vars.get(bb, [])
-        if not current_vars:
+        curr_vars = bb_vars.get(bb, [])
+        if not curr_vars:
             continue
-        if last_vars:
-            for src in last_vars:
-                for dest in current_vars:
-                    if src != dest:
-                        edge_weights[(src, dest)] += 1
-        for i in range(1, len(current_vars)):
-            if current_vars[i-1] != current_vars[i]:
-                edge_weights[(current_vars[i-1], current_vars[i])] += 1
-        last_vars = current_vars[-1:]
-    return edge_weights
+
+        for curr_var in curr_vars:
+            if curr_var not in weight_window:
+                # 计算权重并更新边
+                for last_var in list(weight_window.keys()):  
+                    edge_weights[(last_var, curr_var)] += 1
+                    weight_window[last_var] -= 1
+                
+                # 检查并移除第一个元素的权重是否为0
+                if weight_window:
+                    first_var, first_weight = next(iter(weight_window.items()))
+                    if first_weight <= 0:
+                        weight_window.popitem(last=False)
+                weight_window[curr_var] = window_size
+
+    return edge_weights   
 
 def generate_dot(edge_weights, var_size):
     dot = ["strict digraph {"]
