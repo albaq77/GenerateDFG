@@ -7,24 +7,35 @@
 #define ARRAY_SIZE 10
 
 int localArray[ARRAY_SIZE][ARRAY_SIZE];
+
+typedef struct {
+	int a;          // 核心变量1
+	char _pad1[64]; // 缓存行填充
+	int b;          // 核心变量2
+	char _pad2[64];
+	int c;          // 核心变量3
+} HotData;
+static struct {
+	int x;
+	char _pad1[32];
+	int y;
+	char _pad2[32];
+	int z;
+} mid_vars;
+int var1, var2, var3, var4, var5, var6, var7;
+
+HotData hot_array[ARRAY_SIZE];
+HotData hot_data;
+
+void f() {
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        localArray[i][i] = rand() % RAND_MOD + 1;
+        hot_array[i].a = rand() % RAND_MOD + 1;
+    }
+}
+
 int main() {
-	static struct {
-		int a;          // 核心变量1
-		char _pad1[64]; // 缓存行填充
-		int b;          // 核心变量2
-		char _pad2[64];
-		int c;          // 核心变量3
-	} hot_data;
 
-	struct {
-		int x;
-		char _pad1[32];
-		int y;
-		char _pad2[32];
-		int z;
-	} mid_vars;
-
-	int var1, var2, var3, var4, var5, var6, var7;
 	//
     srand(time(NULL));
     hot_data.a = rand() % RAND_MOD;
@@ -40,12 +51,15 @@ int main() {
     int local1 = rand() % RAND_MOD;
     int local2 = rand() % RAND_MOD;
     int local3 = 0;
-    for (int i = 0; i < ARRAY_SIZE; i++) {
-        localArray[i][i] = rand() % RAND_MOD + 1;
-    }
-    
+    f();
     #pragma unroll
     for (int i = 0; i < ITERATIONS; i++) {
+
+        for (int i = 0; i < ARRAY_SIZE; i++) {
+            localArray[i][i] = rand() % RAND_MOD + 1;
+            hot_array[i].a= rand() % RAND_MOD + 1;
+        }
+    
         /* 高频核心运算 */
         hot_data.a = (hot_data.b * 3) - (hot_data.c / 2);
         hot_data.c = (hot_data.a + hot_data.b) % RAND_MOD;

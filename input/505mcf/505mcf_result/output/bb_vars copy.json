@@ -1,0 +1,1017 @@
+{
+  "resize_prob*0": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)"
+  ],
+  "resize_prob*1": [
+    "i64* bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i64*)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "resize_prob*2": [],
+  "resize_prob*3": [
+    "i64* bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i64*)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "resize_prob*4": [],
+  "resize_prob*5": [],
+  "resize_prob*6": [],
+  "resize_prob*7": [
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)"
+  ],
+  "resize_prob*8": [
+    "%struct._IO_FILE** @stdout"
+  ],
+  "replace_weaker_arc*0": [],
+  "replace_weaker_arc*1": [],
+  "replace_weaker_arc*2": [],
+  "replace_weaker_arc*3": [],
+  "replace_weaker_arc*4": [],
+  "replace_weaker_arc*5": [],
+  "replace_weaker_arc*6": [],
+  "arc_compare*0": [],
+  "arc_compare*1": [],
+  "arc_compare*2": [],
+  "arc_compare*3": [],
+  "main*0": [],
+  "main*1": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 18)"
+  ],
+  "main*2": [],
+  "main*3": [],
+  "main*4": [],
+  "main*5": [],
+  "main*6": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 6)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)"
+  ],
+  "main*7": [],
+  "main*8": [],
+  "main*9": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*10": [],
+  "main*11": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)"
+  ],
+  "main*12": [],
+  "main*13": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i8** bitcast (%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)"
+  ],
+  "main*14": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i8** bitcast (%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)"
+  ],
+  "main*15": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i8** bitcast (%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)"
+  ],
+  "main*16": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i8** bitcast (%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25) to i8**)",
+    "i8** bitcast (%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23) to i8**)"
+  ],
+  "main*17": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 27)"
+  ],
+  "main*18": [],
+  "main*19": [],
+  "main*20": [],
+  "main*21": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 18)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*22": [],
+  "main*23": [],
+  "main*24": [],
+  "main*25": [],
+  "main*26": [],
+  "main*27": [],
+  "main*28": [],
+  "main*29": [],
+  "main*30": [],
+  "main*31": [],
+  "main*33": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 6)"
+  ],
+  "main*34": [],
+  "main*35": [],
+  "main*36": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*37": [],
+  "main*38": [],
+  "main*39": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 6)"
+  ],
+  "main*40": [
+    "i8* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 1, i64 0)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)"
+  ],
+  "main*41": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 18)"
+  ],
+  "main*42": [],
+  "main*43": [],
+  "main*44": [],
+  "main*45": [],
+  "main*46": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*47": [],
+  "main*48": [],
+  "main*49": [],
+  "main*50": [],
+  "main*51": [],
+  "main*52": [],
+  "main*53": [],
+  "main*54": [],
+  "main*55": [],
+  "main*56": [],
+  "main*57": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26)"
+  ],
+  "main*58": [],
+  "main*59": [],
+  "main*60": [],
+  "main*61": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "i8** bitcast (%struct.basket**** @perm_p to i8**)",
+    "i8** bitcast (%struct.basket*** @opt_basket to i8**)",
+    "i8** bitcast (i64** @basket_sizes to i8**)",
+    "i8** bitcast (%struct.basket** @basket to i8**)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "%struct.arc** @full_group_end_arc",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)"
+  ],
+  "main*62": [],
+  "main*63": [
+    "i1* @opt"
+  ],
+  "main*64": [],
+  "main*66": [
+    "i64** @basket_sizes"
+  ],
+  "main*67": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*68": [],
+  "main*69": [],
+  "main*70": [],
+  "main*71": [],
+  "main*72": [],
+  "main*73": [],
+  "main*74": [],
+  "main*75": [],
+  "main*76": [
+    "%struct.arc** @full_group_end_arc"
+  ],
+  "main*77": [],
+  "main*78": [],
+  "main*79": [],
+  "main*80": [],
+  "main*81": [],
+  "main*82": [],
+  "main*83": [],
+  "main*84": [],
+  "main*85": [],
+  "main*86": [],
+  "main*87": [],
+  "main*88": [],
+  "main*89": [],
+  "main*90": [
+    "%struct.basket*** @opt_basket",
+    "%struct.basket**** @perm_p"
+  ],
+  "main*91": [],
+  "main*92": [],
+  "main*93": [],
+  "main*94": [],
+  "main*95": [],
+  "main*96": [],
+  "main*97": [],
+  "main*98": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 28)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 28)"
+  ],
+  "main*99": [],
+  "main*100": [],
+  "main*101": [],
+  "main*102": [],
+  "main*103": [],
+  "main*104": [],
+  "main*105": [],
+  "main*106": [],
+  "main*107": [],
+  "main*108": [],
+  "main*109": [],
+  "main*110": [],
+  "main*111": [],
+  "main*112": [],
+  "main*113": [],
+  "main*114": [],
+  "main*116": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 16)"
+  ],
+  "main*117": [],
+  "main*118": [],
+  "main*119": [],
+  "main*120": [],
+  "main*121": [],
+  "main*122": [],
+  "main*123": [],
+  "main*124": [],
+  "main*125": [],
+  "main*126": [],
+  "main*127": [],
+  "main*128": [],
+  "main*129": [],
+  "main*130": [],
+  "main*131": [],
+  "main*132": [],
+  "main*133": [],
+  "main*134": [],
+  "main*135": [],
+  "main*136": [],
+  "main*137": [],
+  "main*138": [],
+  "main*139": [],
+  "main*141": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 29)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 29)"
+  ],
+  "main*142": [],
+  "main*143": [],
+  "main*144": [],
+  "main*145": [],
+  "main*146": [],
+  "main*147": [],
+  "main*148": [],
+  "main*149": [],
+  "main*150": [],
+  "main*151": [
+    "i1* @opt"
+  ],
+  "main*152": [
+    "i1* @opt"
+  ],
+  "main*154": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 27)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "main*155": [],
+  "main*156": [],
+  "main*157": [],
+  "main*158": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 16)"
+  ],
+  "main*159": [],
+  "main*160": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 16)"
+  ],
+  "main*161": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 16)"
+  ],
+  "main*162": [],
+  "main*163": [],
+  "main*164": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 13)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*165": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 16)"
+  ],
+  "main*166": [],
+  "main*167": [],
+  "main*168": [],
+  "main*169": [],
+  "main*170": [],
+  "main*171": [
+    "%struct._IO_FILE** @stderr",
+    "%struct._IO_FILE** @stderr"
+  ],
+  "main*172": [
+    "i1* @opt",
+    "i8** bitcast (%struct.basket**** @perm_p to i8**)",
+    "i8** bitcast (%struct.basket*** @opt_basket to i8**)",
+    "i8** bitcast (i64** @basket_sizes to i8**)",
+    "i8** bitcast (%struct.basket** @basket to i8**)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 28)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 7)"
+  ],
+  "main*173": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)"
+  ],
+  "main*174": [],
+  "main*175": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*176": [],
+  "main*177": [],
+  "main*178": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*179": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*180": [],
+  "main*181": [],
+  "main*182": [],
+  "main*183": [],
+  "main*184": [],
+  "main*185": [],
+  "main*186": [],
+  "main*187": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*188": [],
+  "main*189": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 7)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 7)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)"
+  ],
+  "main*190": [],
+  "main*191": [],
+  "main*192": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*193": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)"
+  ],
+  "main*194": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)"
+  ],
+  "main*195": [],
+  "main*196": [],
+  "main*197": [],
+  "main*198": [],
+  "main*199": [],
+  "main*200": [],
+  "main*201": [],
+  "main*202": [],
+  "main*203": [],
+  "main*204": [],
+  "main*205": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*206": [],
+  "main*207": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)"
+  ],
+  "main*209": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)"
+  ],
+  "main*210": [],
+  "main*211": [],
+  "main*212": [],
+  "main*213": [],
+  "main*214": [],
+  "main*215": [],
+  "main*216": [],
+  "main*217": [],
+  "main*218": [],
+  "main*219": [],
+  "main*220": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*221": [],
+  "main*222": [],
+  "main*224": [],
+  "main*225": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*226": [],
+  "main*227": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*228": [],
+  "main*229": [],
+  "main*230": [],
+  "main*231": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*232": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)"
+  ],
+  "main*233": [],
+  "main*235": [],
+  "main*236": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*237": [],
+  "main*238": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*239": [],
+  "main*240": [],
+  "main*241": [],
+  "main*242": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*243": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*244": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "main*245": [],
+  "main*246": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*247": [],
+  "main*248": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*249": [],
+  "main*250": [],
+  "main*251": [],
+  "main*252": [],
+  "main*253": [],
+  "main*254": [],
+  "main*255": [],
+  "main*256": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 18)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 9)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)"
+  ],
+  "main*257": [],
+  "main*258": [],
+  "main*259": [],
+  "main*260": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "main*261": [],
+  "main*262": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*263": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*264": [],
+  "main*265": [],
+  "main*266": [],
+  "main*267": [],
+  "main*268": [],
+  "main*269": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 22)"
+  ],
+  "main*270": [],
+  "main*271": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*272": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*273": [],
+  "main*274": [],
+  "main*275": [],
+  "main*276": [],
+  "main*277": [],
+  "main*278": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)"
+  ],
+  "main*279": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 4)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)"
+  ],
+  "main*280": [],
+  "main*281": [],
+  "main*282": [],
+  "main*283": [],
+  "main*284": [],
+  "main*285": [],
+  "main*286": [],
+  "main*287": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*288": [],
+  "main*289": [],
+  "main*290": [],
+  "main*291": [],
+  "main*292": [],
+  "main*293": [],
+  "main*294": [],
+  "main*295": [],
+  "main*296": [],
+  "main*297": [],
+  "main*298": [],
+  "main*299": [],
+  "main*300": [],
+  "main*301": [],
+  "main*302": [],
+  "main*303": [],
+  "main*304": [],
+  "main*305": [],
+  "main*307": [],
+  "main*308": [],
+  "main*309": [],
+  "main*310": [],
+  "main*311": [],
+  "main*312": [],
+  "main*313": [],
+  "main*314": [],
+  "main*315": [],
+  "main*316": [],
+  "main*317": [],
+  "main*318": [],
+  "main*319": [],
+  "main*320": [],
+  "main*321": [],
+  "main*323": [],
+  "main*324": [],
+  "main*325": [],
+  "main*326": [],
+  "main*327": [],
+  "main*329": [],
+  "main*330": [],
+  "main*331": [],
+  "main*332": [],
+  "main*333": [],
+  "main*334": [],
+  "main*335": [],
+  "main*336": [],
+  "main*337": [],
+  "main*338": [],
+  "main*339": [],
+  "main*340": [],
+  "main*341": [],
+  "main*342": [],
+  "main*343": [],
+  "main*344": [],
+  "main*345": [],
+  "main*346": [],
+  "main*347": [],
+  "main*349": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)"
+  ],
+  "main*350": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 3)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)"
+  ],
+  "main*351": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*352": [],
+  "main*353": [],
+  "main*354": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*355": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)"
+  ],
+  "main*356": [],
+  "main*357": [],
+  "main*358": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*359": [],
+  "main*360": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)"
+  ],
+  "main*361": [],
+  "main*362": [],
+  "main*363": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*364": [],
+  "main*365": [],
+  "main*366": [],
+  "main*367": [],
+  "main*368": [],
+  "main*369": [],
+  "main*370": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*371": [],
+  "main*372": [],
+  "main*373": [],
+  "main*374": [],
+  "main*375": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 7)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 7)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 8)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)"
+  ],
+  "main*376": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*377": [],
+  "main*378": [],
+  "main*379": [],
+  "main*380": [],
+  "main*381": [],
+  "main*382": [],
+  "main*383": [],
+  "main*384": [],
+  "main*385": [],
+  "main*386": [],
+  "main*387": [],
+  "main*388": [],
+  "main*389": [],
+  "main*390": [],
+  "main*391": [],
+  "main*392": [],
+  "main*393": [],
+  "main*394": [],
+  "main*395": [],
+  "main*396": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*397": [],
+  "main*398": [],
+  "main*399": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 30)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 31)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 32)"
+  ],
+  "main*400": [],
+  "main*401": [],
+  "main*402": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*403": [],
+  "main*404": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "main*405": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)",
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 24)"
+  ],
+  "main*406": [],
+  "main*407": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)"
+  ],
+  "main*408": [],
+  "main*409": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*410": [],
+  "main*411": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26)"
+  ],
+  "main*412": [],
+  "main*413": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)"
+  ],
+  "main*414": [],
+  "main*415": [],
+  "main*416": [],
+  "main*417": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)"
+  ],
+  "main*418": [],
+  "main*419": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*420": [],
+  "main*421": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26)"
+  ],
+  "main*422": [],
+  "main*423": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)"
+  ],
+  "main*424": [],
+  "main*425": [],
+  "main*426": [],
+  "main*427": [
+    "double* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 19)"
+  ],
+  "main*428": [],
+  "main*429": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)"
+  ],
+  "main*431": [],
+  "main*432": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)"
+  ],
+  "main*433": [],
+  "main*434": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 26)"
+  ],
+  "main*435": [],
+  "main*436": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 25)"
+  ],
+  "main*437": [],
+  "main*438": [],
+  "main*439": [],
+  "main*440": [],
+  "main*441": [],
+  "flow_cost*0": [
+    "%struct.arc** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 23)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 5)"
+  ],
+  "flow_cost*1": [],
+  "flow_cost*2": [],
+  "flow_cost*3": [],
+  "flow_cost*4": [],
+  "flow_cost*5": [],
+  "flow_cost*6": [],
+  "flow_cost*7": [
+    "%struct.node** getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 21)",
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 2)"
+  ],
+  "flow_cost*8": [],
+  "flow_cost*9": [],
+  "flow_cost*10": [],
+  "flow_cost*11": [],
+  "flow_cost*12": [],
+  "flow_cost*13": [],
+  "flow_cost*14": [],
+  "flow_cost*15": [
+    "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i64 0, i32 18)"
+  ],
+  "flow_cost*16": [],
+  "flow_cost*17": [],
+  "flow_cost*18": [],
+  "flow_cost*19": [],
+  "flow_cost*20": [],
+  "flow_cost*21": [],
+  "flow_cost*22": [],
+  "flow_cost*23": [],
+  "flow_cost*24": [],
+  "flow_cost*25": [],
+  "cost_compare*0": [],
+  "cost_compare*1": [],
+  "cost_compare*2": [],
+  "cost_compare*3": [],
+  "spec_qsort*0": [],
+  "spec_qsort*1": [],
+  "spec_qsort*3": [],
+  "spec_qsort*4": [],
+  "spec_qsort*5": [],
+  "spec_qsort*6": [],
+  "spec_qsort*7": [],
+  "spec_qsort*8": [],
+  "spec_qsort*10": [],
+  "spec_qsort*11": [],
+  "spec_qsort*12": [],
+  "spec_qsort*13": [],
+  "spec_qsort*14": [],
+  "spec_qsort*15": [],
+  "spec_qsort*16": [],
+  "spec_qsort*17": [],
+  "spec_qsort*18": [],
+  "spec_qsort*19": [],
+  "spec_qsort*20": [],
+  "spec_qsort*21": [],
+  "spec_qsort*22": [],
+  "spec_qsort*24": [],
+  "spec_qsort*25": [],
+  "spec_qsort*26": [],
+  "spec_qsort*27": [],
+  "spec_qsort*28": [],
+  "spec_qsort*29": [],
+  "spec_qsort*30": [],
+  "spec_qsort*31": [],
+  "spec_qsort*32": [],
+  "spec_qsort*33": [],
+  "spec_qsort*34": [],
+  "spec_qsort*35": [],
+  "spec_qsort*36": [],
+  "spec_qsort*37": [],
+  "spec_qsort*38": [],
+  "spec_qsort*39": [],
+  "spec_qsort*40": [],
+  "spec_qsort*41": [],
+  "spec_qsort*42": [],
+  "spec_qsort*43": [],
+  "spec_qsort*44": [],
+  "spec_qsort*45": [],
+  "spec_qsort*46": [],
+  "spec_qsort*47": [],
+  "spec_qsort*48": [],
+  "spec_qsort*49": [],
+  "spec_qsort*50": [],
+  "spec_qsort*51": [],
+  "spec_qsort*52": [],
+  "spec_qsort*53": [],
+  "spec_qsort*54": [],
+  "spec_qsort*55": [],
+  "spec_qsort*56": [],
+  "spec_qsort*57": [],
+  "spec_qsort*58": [],
+  "spec_qsort*59": [],
+  "spec_qsort*60": [],
+  "spec_qsort*61": [],
+  "spec_qsort*62": [],
+  "spec_qsort*63": [],
+  "spec_qsort*64": [],
+  "spec_qsort*65": [],
+  "spec_qsort*66": [],
+  "spec_qsort*68": [],
+  "spec_qsort*69": [],
+  "spec_qsort*70": [],
+  "spec_qsort*71": [],
+  "spec_qsort*73": [],
+  "spec_qsort*74": [],
+  "spec_qsort*75": [],
+  "spec_qsort*76": [],
+  "spec_qsort*78": [],
+  "spec_qsort*79": [],
+  "spec_qsort*80": [],
+  "spec_qsort*81": [],
+  "spec_qsort*83": [],
+  "spec_qsort*84": [],
+  "spec_qsort*85": [],
+  "spec_qsort*86": [],
+  "spec_qsort*87": [],
+  "spec_qsort*89": [],
+  "spec_qsort*90": [],
+  "spec_qsort*91": [],
+  "spec_qsort*92": [],
+  "spec_qsort*93": [],
+  "spec_qsort*94": [],
+  "spec_qsort*95": [],
+  "spec_qsort*97": [],
+  "spec_qsort*98": [],
+  "spec_qsort*100": [],
+  "spec_qsort*101": [],
+  "spec_qsort*102": [],
+  "spec_qsort*103": [],
+  "spec_qsort*104": [],
+  "spec_qsort*105": [],
+  "spec_qsort*107": [],
+  "spec_qsort*108": [],
+  "spec_qsort*109": [],
+  "spec_qsort*110": [],
+  "spec_qsort*111": [],
+  "spec_qsort*112": [],
+  "spec_qsort*113": [],
+  "spec_qsort*115": [],
+  "spec_qsort*116": [],
+  "spec_qsort*117": [],
+  "spec_qsort*118": [],
+  "spec_qsort*119": [],
+  "spec_qsort*121": [],
+  "spec_qsort*122": [],
+  "spec_qsort*123": [],
+  "spec_qsort*124": [],
+  "spec_qsort*125": [],
+  "spec_qsort*126": [],
+  "spec_qsort*127": [],
+  "spec_qsort*128": [],
+  "spec_qsort*129": [],
+  "spec_qsort*130": [],
+  "spec_qsort*131": [],
+  "spec_qsort*132": [],
+  "spec_qsort*134": [],
+  "spec_qsort*135": [],
+  "spec_qsort*136": [],
+  "spec_qsort*137": [],
+  "spec_qsort*138": [],
+  "spec_qsort*140": [],
+  "spec_qsort*141": [],
+  "spec_qsort*142": [],
+  "spec_qsort*143": [],
+  "spec_qsort*145": [],
+  "spec_qsort*146": [],
+  "spec_qsort*147": [],
+  "spec_qsort*148": [],
+  "spec_qsort*149": [],
+  "spec_qsort*150": [],
+  "spec_qsort*151": [],
+  "spec_qsort*153": [],
+  "spec_qsort*154": [],
+  "spec_qsort*155": [],
+  "spec_qsort*156": [],
+  "spec_qsort*157": [],
+  "spec_qsort*158": [],
+  "spec_qsort*159": [],
+  "spec_qsort*160": [],
+  "spec_qsort*162": [],
+  "spec_qsort*163": [],
+  "spec_qsort*164": [],
+  "spec_qsort*165": [],
+  "spec_qsort*166": [],
+  "spec_qsort*167": [],
+  "spec_qsort*168": [],
+  "spec_qsort*169": [],
+  "spec_qsort*170": [],
+  "spec_qsort*171": [],
+  "spec_qsort*172": [],
+  "spec_qsort*173": [],
+  "spec_qsort*174": [],
+  "spec_qsort*175": [],
+  "spec_qsort*176": [],
+  "spec_qsort*177": [],
+  "spec_qsort*178": [],
+  "spec_qsort*179": [],
+  "spec_qsort*180": [],
+  "spec_qsort*181": [],
+  "spec_qsort*182": [],
+  "spec_qsort*183": [],
+  "spec_qsort*184": [],
+  "spec_qsort*185": [],
+  "spec_qsort*186": [],
+  "spec_qsort*187": [],
+  "spec_qsort*188": [],
+  "spec_qsort*189": [],
+  "spec_qsort*190": [],
+  "spec_qsort*191": [],
+  "spec_qsort*192": [],
+  "spec_qsort*193": []
+}
