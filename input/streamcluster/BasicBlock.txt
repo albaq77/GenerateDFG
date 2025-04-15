@@ -3283,6 +3283,7 @@
        %235 = bitcast i8* undef to float*
        %236 = bitcast i8* %226 to i1*
        %237 = bitcast i8* undef to float**
+       {int  a}
        %238 = bitcast i8* undef to float*
        %239 = getelementptr float*, float** %230, i64 -12, !dbg !1564
        store float* %229, float** %239, align 8, !dbg !1564, !tbaa !1541
@@ -3387,9 +3388,11 @@
        %288 = icmp sgt i64 %265, 0, !dbg !1598
        br i1 %288, label %289, label %313, !dbg !1601
 [ld-temp.o]@main*24
+
        %290 = ptrtoint %struct.Points* %3 to i64, !dbg !1602
        %291 = add i64 %290, 16, !dbg !1602
        %292 = inttoptr i64 %291 to %struct.Point**, !dbg !1602
+       {int a}
        %293 = load %struct.Point*, %struct.Point** %292, align 8, !dbg !1602, !tbaa !1530
        %294 = add i64 %265, -1, !dbg !1601
        %295 = and i64 %265, 7, !dbg !1601

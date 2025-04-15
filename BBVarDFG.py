@@ -2,23 +2,21 @@ import re
 import logging
 from collections import defaultdict
 
+
 def parse_bb_variables(cfg_str):
     """从CFG DOT文件解析每个基本块的变量访问序列"""
-    bb_vars = defaultdict(list)
+    bb_vars = {}
+    var_size = {}
     
     # 正则表达式匹配基本块和其对应的指令
-    bb_pattern = re.compile(r'BB(\d+)\s*.*?label="\{(.*?)\}"', re.DOTALL)
-    # var_pattern = re.compile(r'\b(?:load|store)\b\s+[^,]+,\s*([^,]+)')
+    bb_pattern = r"\[.*?\]@(.+?)\*(\d+)\n([\s\S]*?)(?=\n\[.*?\]@.+?\*\d+|\Z)"
     var_pattern = re.compile(r'\b(?:load|store)\b\s+(.*)')
-
 
     # 提取所有基本块的代码
     bb_blocks = re.findall(bb_pattern, cfg_str)
+    
     var_map = {}
-    for bb_num, code_text in bb_blocks:
-        # 清理代码文本
-        code_text = code_text.replace('\\l', '\n').replace('\\', '')
-        
+    for func_name, bb_num, code_text in bb_blocks:
         # 提取变量访问
         variables = []
         for line in code_text.split('\n'):
@@ -43,18 +41,18 @@ def parse_bb_variables(cfg_str):
                 # 直接保留变量名（包括i32*前缀）
                 if var.split(" ", 1)[1].startswith('%'):
                     variables.append(var)
-        
-        bb_vars[bb_num] = variables
-        logging.debug(f"Parsed BB{bb_num} variables: {variables}")
+        bb_key = f"{func_name}*{bb_num}"
+        bb_vars[bb_key] = variables
+        logging.debug(f"Parsed {bb_key} variables: {variables}")
     
-    return bb_vars
+    return bb_vars, var_size
 
 
 def parse_execution_sequence(seq_str):
     """解析执行序列，处理ANSI转义字符和无效输入"""
-    clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str)  # 移除ANSI颜色代码
-    # 使用正则表达式提取每行星号后面的编号
-    return re.findall(r'\*(\d+)', clean_str)
+    clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str) 
+    # 使用正则表达式提取每行的完整函数和编号
+    return re.findall(r'(\w+\*\d+)', clean_str)
 
 
 def build_variable_graph(bb_vars, exec_sequence):
@@ -84,6 +82,8 @@ def build_variable_graph(bb_vars, exec_sequence):
 def generate_dot(edge_weights):
     """生成优化的DOT文件"""
     dot = ["strict digraph {"]
+    number = 0
+    node_nums = {}
     
     # 创建节点集合
     nodes = set()
@@ -93,11 +93,13 @@ def generate_dot(edge_weights):
     
     # 添加节点定义
     for node in sorted(nodes):
-        dot.append(f'  "{node}" [label="MEM,{node}", color=blue, shape=record];')
+        number += 1
+        node_nums[node] = number
+        dot.append(f'  {node_nums[node]} [label="{node}", color=blue, shape=record];')
     
     # 添加边定义（按权重降序排列）
     for (src, dest), weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
-        dot.append(f'  "{src}" -> "{dest}" [label="weight={weight}", weight="{weight}"];')
+        dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight={weight}", weight="{weight}"];')
     
     dot.append("}")
     return '\n'.join(dot)
@@ -107,16 +109,19 @@ def main():
     
     try:
 
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/GlobalAndStructSizes.txt', 'r') as f:
+            sizes_file = f.read()
+
         # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/arrayTest/NoArray/main.dot', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlock.txt', 'r') as f:
             cfg_content = f.read()
         
         # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/arrayTest/NoArray/main.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
         
         # 处理数据
-        bb_vars = parse_bb_variables(cfg_content)
+        bb_vars, var_size = parse_bb_variables(cfg_content)
         exec_sequence = parse_execution_sequence(exec_content)
         edge_weights = build_variable_graph(bb_vars, exec_sequence)
         
