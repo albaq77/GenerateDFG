@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared  -o libDFGPass.so CMakeFiles/DFGPass.dir/DFGPass.cpp.o   -L/usr/local/lib 

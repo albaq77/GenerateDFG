@@ -1,0 +1,238 @@
+[ld-temp.o]@f*0
+     Basic Block Source Location: MutilArray.c:22
+       %1 = alloca i32, align 4
+       %2 = alloca i32, align 4
+       call void @llvm.dbg.declare(metadata i32* %1, metadata !32, metadata !34), !dbg !35
+       store i32 0, i32* %1, align 4, !dbg !35
+       br label %3, !dbg !36
+[ld-temp.o]@f*1
+     Basic Block Source Location: MutilArray.c:22
+       %4 = load i32, i32* %1, align 4, !dbg !37
+       %5 = icmp slt i32 %4, 10, !dbg !40
+       br i1 %5, label %6, label %43, !dbg !41
+[ld-temp.o]@f*2
+     Basic Block Source Location: MutilArray.c:23
+       call void @llvm.dbg.declare(metadata i32* %2, metadata !42, metadata !34), !dbg !45
+       store i32 0, i32* %2, align 4, !dbg !45
+       br label %7, !dbg !46
+[ld-temp.o]@f*3
+     Basic Block Source Location: MutilArray.c:23
+       %8 = load i32, i32* %2, align 4, !dbg !47
+       %9 = icmp slt i32 %8, 10, !dbg !50
+       br i1 %9, label %10, label %39, !dbg !51
+[ld-temp.o]@f*4
+     Basic Block Source Location: MutilArray.c:25
+       %11 = call i32 @rand() #4, !dbg !52
+       %12 = srem i32 %11, 100, !dbg !54
+       %13 = add nsw i32 %12, 1, !dbg !55
+       %14 = load i32, i32* %2, align 4, !dbg !56
+       %15 = sext i32 %14 to i64, !dbg !57
+       %16 = load i32, i32* %1, align 4, !dbg !58
+       %17 = sext i32 %16 to i64, !dbg !57
+       %18 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %17, !dbg !57
+       %19 = getelementptr inbounds [4000 x i32], [4000 x i32]* %18, i64 0, i64 %15, !dbg !57
+       store i32 %13, i32* %19, align 4, !dbg !59
+       %20 = call i32 @rand() #4, !dbg !60
+       %21 = srem i32 %20, 100, !dbg !61
+       %22 = add nsw i32 %21, 1, !dbg !62
+       %23 = load i32, i32* %1, align 4, !dbg !63
+       %24 = sext i32 %23 to i64, !dbg !64
+       %25 = load i32, i32* %2, align 4, !dbg !65
+       %26 = sext i32 %25 to i64, !dbg !64
+       %27 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %26, !dbg !64
+       %28 = getelementptr inbounds [4000 x i32], [4000 x i32]* %27, i64 0, i64 %24, !dbg !64
+       store i32 %22, i32* %28, align 4, !dbg !66
+       %29 = call i32 @rand() #4, !dbg !67
+       %30 = srem i32 %29, 100, !dbg !68
+       %31 = add nsw i32 %30, 1, !dbg !69
+       %32 = load i32, i32* %1, align 4, !dbg !70
+       %33 = sext i32 %32 to i64, !dbg !71
+       %34 = getelementptr inbounds [10 x %struct.HotData], [10 x %struct.HotData]* @hot_array, i64 0, i64 %33, !dbg !71
+       %35 = getelementptr inbounds %struct.HotData, %struct.HotData* %34, i32 0, i32 0, !dbg !72
+       store i32 %31, i32* %35, align 4, !dbg !73
+       br label %36, !dbg !74
+[ld-temp.o]@f*5
+     Basic Block Source Location: MutilArray.c:23
+       %37 = load i32, i32* %2, align 4, !dbg !75
+       %38 = add nsw i32 %37, 1, !dbg !75
+       store i32 %38, i32* %2, align 4, !dbg !75
+       br label %7, !dbg !77, !llvm.loop !78
+[ld-temp.o]@f*6
+     Basic Block Source Location: MutilArray.c:30
+       br label %40, !dbg !80
+[ld-temp.o]@f*7
+     Basic Block Source Location: MutilArray.c:22
+       %41 = load i32, i32* %1, align 4, !dbg !81
+       %42 = add nsw i32 %41, 1, !dbg !81
+       store i32 %42, i32* %1, align 4, !dbg !81
+       br label %3, !dbg !83, !llvm.loop !84
+[ld-temp.o]@f*8
+     Basic Block Source Location: MutilArray.c:31
+       ret void, !dbg !86
+[ld-temp.o]@main*0
+     Basic Block Source Location: MutilArray.c:36
+       %1 = alloca i32, align 4
+       %2 = alloca i32, align 4
+       %3 = alloca i32, align 4
+       %4 = alloca i32, align 4
+       %5 = alloca i32, align 4
+       store i32 0, i32* %1, align 4
+       %6 = call i64 @time(i64* null) #4, !dbg !32
+       %7 = trunc i64 %6 to i32, !dbg !32
+       call void @srand(i32 %7) #4, !dbg !33
+       %8 = call i32 @rand() #4, !dbg !35
+       %9 = srem i32 %8, 100, !dbg !36
+       store i32 %9, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 0), align 4, !dbg !37
+       %10 = call i32 @rand() #4, !dbg !38
+       %11 = srem i32 %10, 100, !dbg !39
+       store i32 %11, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 2), align 4, !dbg !40
+       %12 = call i32 @rand() #4, !dbg !41
+       %13 = srem i32 %12, 100, !dbg !42
+       store i32 %13, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 4), align 4, !dbg !43
+       store i8 98, i8* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 1, i64 0), align 4, !dbg !44
+       store i8 97, i8* getelementptr inbounds ([10 x %struct.HotData], [10 x %struct.HotData]* @hot_array, i64 0, i64 1, i32 1, i64 0), align 4, !dbg !45
+       call void @f(), !dbg !46
+       call void @llvm.dbg.declare(metadata i32* %2, metadata !105, metadata !34), !dbg !107
+       store i32 0, i32* %2, align 4, !dbg !50
+       br label %14, !dbg !51
+[ld-temp.o]@main*1
+     Basic Block Source Location: MutilArray.c:46
+       %15 = load i32, i32* %2, align 4, !dbg !52
+       %16 = icmp slt i32 %15, 4000, !dbg !55
+       br i1 %16, label %17, label %72, !dbg !56
+[ld-temp.o]@main*2
+     Basic Block Source Location: MutilArray.c:48
+       call void @llvm.dbg.declare(metadata i32* %3, metadata !114, metadata !34), !dbg !117
+       store i32 0, i32* %3, align 4, !dbg !60
+       br label %18, !dbg !61
+[ld-temp.o]@main*3
+     Basic Block Source Location: MutilArray.c:48
+       %19 = load i32, i32* %3, align 4, !dbg !62
+       %20 = icmp slt i32 %19, 10, !dbg !65
+       br i1 %20, label %21, label %41, !dbg !66
+[ld-temp.o]@main*4
+     Basic Block Source Location: MutilArray.c:50
+       %22 = call i32 @rand() #4, !dbg !67
+       %23 = srem i32 %22, 100, !dbg !69
+       %24 = add nsw i32 %23, 1, !dbg !70
+       %25 = load i32, i32* %3, align 4, !dbg !71
+       %26 = sext i32 %25 to i64, !dbg !72
+       %27 = load i32, i32* %2, align 4, !dbg !73
+       %28 = sext i32 %27 to i64, !dbg !72
+       %29 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %28, !dbg !72
+       %30 = getelementptr inbounds [4000 x i32], [4000 x i32]* %29, i64 0, i64 %26, !dbg !72
+       store i32 %24, i32* %30, align 4, !dbg !74
+       %31 = call i32 @rand() #4, !dbg !75
+       %32 = srem i32 %31, 100, !dbg !76
+       %33 = add nsw i32 %32, 1, !dbg !77
+       %34 = load i32, i32* %3, align 4, !dbg !78
+       %35 = sext i32 %34 to i64, !dbg !79
+       %36 = getelementptr inbounds [10 x %struct.HotData], [10 x %struct.HotData]* @hot_array, i64 0, i64 %35, !dbg !79
+       %37 = getelementptr inbounds %struct.HotData, %struct.HotData* %36, i32 0, i32 0, !dbg !80
+       store i32 %33, i32* %37, align 4, !dbg !81
+       br label %38, !dbg !82
+[ld-temp.o]@main*5
+     Basic Block Source Location: MutilArray.c:48
+       %39 = load i32, i32* %3, align 4, !dbg !83
+       %40 = add nsw i32 %39, 1, !dbg !83
+       store i32 %40, i32* %3, align 4, !dbg !83
+       br label %18, !dbg !85, !llvm.loop !86
+[ld-temp.o]@main*6
+     Basic Block Source Location: MutilArray.c:55
+       %42 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 2), align 4, !dbg !88
+       %43 = mul nsw i32 %42, 3, !dbg !89
+       %44 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 4), align 4, !dbg !90
+       %45 = sdiv i32 %44, 2, !dbg !91
+       %46 = sub nsw i32 %43, %45, !dbg !92
+       store i32 %46, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 0), align 4, !dbg !93
+       %47 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 0), align 4, !dbg !94
+       %48 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 2), align 4, !dbg !95
+       %49 = add nsw i32 %47, %48, !dbg !96
+       store i32 %49, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 4), align 4, !dbg !97
+       %50 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 4), align 4, !dbg !98
+       %51 = or i32 %50, 1, !dbg !99
+       store i32 %51, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 2), align 4, !dbg !100
+       %52 = load i32, i32* %2, align 4, !dbg !101
+       %53 = sext i32 %52 to i64, !dbg !102
+       %54 = load i32, i32* %2, align 4, !dbg !103
+       %55 = srem i32 %54, 10, !dbg !104
+       %56 = sext i32 %55 to i64, !dbg !102
+       %57 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %56, !dbg !102
+       %58 = getelementptr inbounds [4000 x i32], [4000 x i32]* %57, i64 0, i64 %53, !dbg !102
+       %59 = load i32, i32* %58, align 4, !dbg !102
+       %60 = load i32, i32* getelementptr inbounds (%struct.HotData, %struct.HotData* @hot_data, i32 0, i32 4), align 4, !dbg !105
+       %61 = or i32 %60, 1, !dbg !106
+       %62 = add nsw i32 %59, %61, !dbg !107
+       %63 = load i32, i32* %2, align 4, !dbg !108
+       %64 = sext i32 %63 to i64, !dbg !109
+       %65 = load i32, i32* %2, align 4, !dbg !110
+       %66 = sext i32 %65 to i64, !dbg !109
+       %67 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %66, !dbg !109
+       %68 = getelementptr inbounds [4000 x i32], [4000 x i32]* %67, i64 0, i64 %64, !dbg !109
+       store i32 %62, i32* %68, align 4, !dbg !111
+       store i8 97, i8* getelementptr inbounds ([10 x %struct.HotData], [10 x %struct.HotData]* @hot_array, i64 0, i64 1, i32 1, i64 0), align 4, !dbg !112
+       br label %69, !dbg !113
+[ld-temp.o]@main*7
+     Basic Block Source Location: MutilArray.c:46
+       %70 = load i32, i32* %2, align 4, !dbg !114
+       %71 = add nsw i32 %70, 1, !dbg !114
+       store i32 %71, i32* %2, align 4, !dbg !114
+       br label %14, !dbg !116, !llvm.loop !117
+[ld-temp.o]@main*8
+     Basic Block Source Location: MutilArray.c:62
+       call void @llvm.dbg.declare(metadata i32* %4, metadata !176, metadata !34), !dbg !178
+       store i32 0, i32* %4, align 4, !dbg !121
+       br label %73, !dbg !122
+[ld-temp.o]@main*9
+     Basic Block Source Location: MutilArray.c:62
+       %74 = load i32, i32* %4, align 4, !dbg !123
+       %75 = icmp slt i32 %74, 10, !dbg !126
+       br i1 %75, label %76, label %105, !dbg !127
+[ld-temp.o]@main*10
+     Basic Block Source Location: MutilArray.c:63
+       call void @llvm.dbg.declare(metadata i32* %5, metadata !185, metadata !34), !dbg !188
+       store i32 0, i32* %5, align 4, !dbg !131
+       br label %77, !dbg !132
+[ld-temp.o]@main*11
+     Basic Block Source Location: MutilArray.c:63
+       %78 = load i32, i32* %5, align 4, !dbg !133
+       %79 = icmp slt i32 %78, 4000, !dbg !136
+       br i1 %79, label %80, label %101, !dbg !137
+[ld-temp.o]@main*12
+     Basic Block Source Location: MutilArray.c:64
+       %81 = load i32, i32* %4, align 4, !dbg !138
+       %82 = load i32, i32* %5, align 4, !dbg !140
+       %83 = sext i32 %82 to i64, !dbg !141
+       %84 = load i32, i32* %4, align 4, !dbg !142
+       %85 = sext i32 %84 to i64, !dbg !141
+       %86 = getelementptr inbounds [4000 x [4000 x i32]], [4000 x [4000 x i32]]* @localArray, i64 0, i64 %85, !dbg !141
+       %87 = getelementptr inbounds [4000 x i32], [4000 x i32]* %86, i64 0, i64 %83, !dbg !141
+       %88 = load i32, i32* %87, align 4, !dbg !141
+       %89 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([26 x i8], [26 x i8]* @.str, i32 0, i32 0), i32 %81, i32 %88), !dbg !143
+       %90 = load i32, i32* %4, align 4, !dbg !144
+       %91 = sext i32 %90 to i64, !dbg !145
+       %92 = getelementptr inbounds [10 x %struct.HotData], [10 x %struct.HotData]* @hot_array, i64 0, i64 %91, !dbg !145
+       %93 = getelementptr inbounds %struct.HotData, %struct.HotData* %92, i32 0, i32 1, !dbg !146
+       %94 = getelementptr inbounds [64 x i8], [64 x i8]* %93, i64 0, i64 0, !dbg !145
+       %95 = load i8, i8* %94, align 4, !dbg !145
+       %96 = sext i8 %95 to i32, !dbg !145
+       %97 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([16 x i8], [16 x i8]* @.str.1, i32 0, i32 0), i32 %96), !dbg !147
+       br label %98, !dbg !148
+[ld-temp.o]@main*13
+     Basic Block Source Location: MutilArray.c:63
+       %99 = load i32, i32* %5, align 4, !dbg !149
+       %100 = add nsw i32 %99, 1, !dbg !149
+       store i32 %100, i32* %5, align 4, !dbg !149
+       br label %77, !dbg !151, !llvm.loop !152
+[ld-temp.o]@main*14
+     Basic Block Source Location: MutilArray.c:68
+       br label %102, !dbg !154
+[ld-temp.o]@main*15
+     Basic Block Source Location: MutilArray.c:62
+       %103 = load i32, i32* %4, align 4, !dbg !155
+       %104 = add nsw i32 %103, 1, !dbg !155
+       store i32 %104, i32* %4, align 4, !dbg !155
+       br label %73, !dbg !157, !llvm.loop !158
+[ld-temp.o]@main*16
+     Basic Block Source Location: MutilArray.c:69
+       ret i32 0, !dbg !160
