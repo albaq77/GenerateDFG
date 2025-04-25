@@ -1,6 +1,7 @@
 import re
 import logging
-from collections import defaultdict
+import json
+from collections import defaultdict, deque
 
 
 def parse_bb_variables(cfg_str):
@@ -23,7 +24,7 @@ def parse_bb_variables(cfg_str):
             line = line.strip()
             if not line:
                 continue
-    
+
             if re.search(r'^%\S+\s*=\s*getelementptr\s+inbounds.*', line):
                 var_name, value = [s.strip() for s in line.split("=", 1)]
                 var_map[var_name] = value
@@ -46,7 +47,6 @@ def parse_bb_variables(cfg_str):
         logging.debug(f"Parsed {bb_key} variables: {variables}")
     
     return bb_vars, var_size
-
 
 def parse_execution_sequence(seq_str):
     """解析执行序列，处理ANSI转义字符和无效输入"""
@@ -104,24 +104,40 @@ def generate_dot(edge_weights):
     dot.append("}")
     return '\n'.join(dot)
 
+
+def export_to_file(bb_vars, output_path):
+    """将基本块变量信息写入指定文件"""
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(bb_vars, f, indent=2, ensure_ascii=False)
+            logging.info(f"成功写入JSON文件：{output_path}")
+            
+    except IOError as e:
+        logging.error(f"文件写入失败：{str(e)}")
+    except Exception as e:
+        logging.error(f"发生意外错误：{str(e)}")
+
+
 def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
     
     try:
 
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/GlobalAndStructSizes.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
 
         # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlock.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlock.txt', 'r') as f:
             cfg_content = f.read()
         
         # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/streamcluster/BasicBlockNum.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
         
         # 处理数据
         bb_vars, var_size = parse_bb_variables(cfg_content)
+        export_to_file(bb_vars, "./bb_vars.json")
+        export_to_file(var_size, "./var_size.json")
         exec_sequence = parse_execution_sequence(exec_content)
         edge_weights = build_variable_graph(bb_vars, exec_sequence)
         
