@@ -4,6 +4,9 @@ import json
 import math
 from collections import defaultdict, deque, OrderedDict
 
+var_map = {}
+temp_var_reg = set()
+
 def process_sizes(sizes_file):
     sizes = {}
 
@@ -21,7 +24,9 @@ def process_sizes(sizes_file):
             sizes[name] = size
     return sizes
 
-def parse_bb_variables(cfg_str, struct_size):
+
+def parse_bb_variables(cfg_str, struct_size, seq_number):
+    global temp_var_reg, var_map
     """从CFG DOT文件解析每个基本块的变量访问序列"""
     bb_vars = {}
     var_size = {}
@@ -100,13 +105,14 @@ def parse_bb_variables(cfg_str, struct_size):
                 else:    
                     var = re.search(r',\s*(.*?),\s*align', var)
                     var = var.group(1).strip()
+                    black_name = f'{func_name}*{bb_num}'
                     base_type, reg_name = var.split(" ", 1)
                     # 检查 reg_name 本身是否是全局数组变量
                     global_var_match = global_var_pattern.findall(reg_name)
                     if global_var_match:
                         # 如果是全局数组变量，直接添加提取的部分
                         array_var_name = global_var_match[-1]
-                        array_var_name = get_dim_tem_num(temp_var_reg, var_map, reg_name, array_var_name) + " " + source_location
+                        array_var_name = get_dim_tem_num(reg_name, array_var_name) + "-" + source_location + "-" + str(seq_number[black_name])
                         variables.append(array_var_name)
                         var_size[array_var_name] = parse_global_size(var, struct_size)
                         continue
@@ -124,7 +130,7 @@ def parse_bb_variables(cfg_str, struct_size):
                             if global_var_match:
                                 # 找到全局数组变量，停止回溯并添加到 final_vars
                                 array_var_name = global_var_match[-1]
-                                array_var_name = get_dim_tem_num(temp_var_reg, var_map, array_access_ins, array_var_name) + " " + source_location
+                                array_var_name = get_dim_tem_num(array_access_ins, array_var_name) + "-" + source_location + "-" + str(seq_number[black_name])
                                 variables.append(array_var_name)
                                 var_size[array_var_name] = parse_global_size(var, struct_size)
                                 var_array = True
@@ -177,43 +183,123 @@ def parse_bb_variables(cfg_str, struct_size):
     
     return bb_vars, var_size
 
+def uni_backtrace_register(next_reg):
+	global temp_var_reg, var_map
+	last_reg = None
+	if next_reg in var_map :
+		queue = deque([next_reg])
+		reg_set = set()
+		while queue:
+			current_reg = queue.pop()
+			last_reg = current_reg
+			current_value = var_map.get(current_reg, "")
+			# 如果当前寄存器还有进一步的定义，继续回溯
+			reg_matches = re.findall(r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+			for next_reg in reg_matches:
+				if next_reg in var_map and current_reg not in reg_set:
+					if next_reg in temp_var_reg :
+						return next_reg
+					else: 
+						queue.appendleft(next_reg)
+			reg_set.add(current_reg) 
+	return last_reg
 
-def get_dim_tem_num(temp_var_reg, var_map, array_access_ins, array_var_name):
-    dim_length = array_var_name.count('[')
-    tem_length = 0
-    reg_matches = re.findall(r'%\d+', array_access_ins)  # 使用 findall 查找多个寄存器
-    for next_reg in reg_matches:
-        is_flag = False
-        if next_reg in var_map :
-             queue = deque([next_reg])
-             reg_set = set()
-             last_reg = None
-             while queue:
-                 current_reg = queue.pop()
-                 last_reg = current_reg
-                 current_value = var_map.get(current_reg, "")
-                 # 如果当前寄存器还有进一步的定义，继续回溯
-                 reg_matches = re.findall(r'%\d+', current_value)  # 使用 findall 查找多个寄存器
-                 for next_reg in reg_matches:
-                     if next_reg in var_map and current_reg not in reg_set:
-                         if next_reg in temp_var_reg :
-                             array_var_name += " " + next_reg
-                             tem_length = tem_length + 1
-                             if (tem_length == dim_length):
-                                 return array_var_name
-                             queue.clear()
-                             is_flag = True
-                             break
-                         else: 
-                             queue.appendleft(next_reg)
-                 reg_set.add(current_reg) 
-             if not is_flag :
-                 array_var_name += " " + current_reg
-                 tem_length = tem_length + 1
-                 if (tem_length == dim_length):
-                     return array_var_name 
-    return array_var_name
+def parse_gep(mycmd: str, array_var_name: str):
+    """
+    从 LLVM IR 风格的 getelementptr 指令字符串中解析出索引表达式。
 
+    Args:
+        mycmd: 完整的 getelementptr 指令字符串。
+        array_var_name: 目标数组变量名。
+
+    Returns:
+        extracted: 截取得到的参数文本。
+        indexing: 形如 "globalArry[%2][3][%4]" 的最终索引表达式。
+    """
+    dim_length = array_var_name.count('[')  # 计算维度数量
+
+    # 1. 定位并截取
+    aaa = array_var_name.find('@')
+    array_name_struct = array_var_name[0:aaa]
+    array_var_name = array_var_name[aaa:]
+    bbb = array_var_name.find('%')
+    if bbb > 0:
+        array_var_name = array_var_name[:bbb-1]
+
+    start = mycmd.find(array_var_name)
+    if start == -1:
+        raise ValueError(f"在指令中未找到数组名：{array_var_name}")
+    extracted = mycmd[start:].rstrip()
+    if extracted.endswith(')'):
+        extracted = extracted[:-1]
+
+    # 2. 按逗号拆分，并去除所有 dbg 注释
+    parts = [p.strip() for p in extracted.split(',')]
+    parts = [p for p in parts if not p.startswith('!dbg')]
+    parts = parts[1:]  # 去掉第一个部分（通常是类型信息）
+
+    # 3. 挑出所有 i64 开头的、值不为 0 的索引
+    raw_indices = []
+    length = 0
+    is_not_ret = False
+    is_even = len(parts) % 2 == 0
+
+    for index, token in enumerate(parts):
+        token = token.replace(')', '')
+        if 'sext' in token:
+            aaab = token.find('%')
+            aaac = token.find(' to ')
+            token = token[aaab:aaac]
+
+        # 只处理 i64/i32 等整型索引
+        m = re.match(r'^(i\d+)\s+(.+)$', token)
+        if m:
+            val = m.group(2).strip()
+            if is_even:
+                if val != '0' or index % 2 != 0:
+                    raw_indices.append(val)
+                    length += 1
+                    if length == dim_length:
+                        break
+            else:
+                if (val != '0' or is_not_ret or ((index < len(parts) - 2 and '%' not in parts[index + 1])) or (index == len(parts) - 1)) and index != 0:
+                    raw_indices.append(val)
+                    is_not_ret = False
+                    length += 1
+                    if length == dim_length:
+                        break
+                else:
+                    is_not_ret = True
+        else:
+            if '%' in token and token.strip() != '0':
+                reg = re.search(r'%\d+', token)
+                raw_indices.append(reg.group(0) if reg else token)
+                length += 1
+                if length == dim_length:
+                    break
+
+    # 4. 过滤后转换寄存器，拼成最终索引
+    mapped = []
+    for v in raw_indices:
+        if v.startswith('%'):
+            num = uni_backtrace_register(v)  # 假定函数返回寄存器编号
+            mapped.append(f'%{num}')
+        else:
+            if ')' in v:
+                mapped.append("_IMM")
+            else:
+                mapped.append(v)
+
+    name = array_name_struct + array_var_name
+    indexing = name + ''.join(f'[{idx}]' for idx in mapped)
+
+    return indexing
+
+def get_dim_tem_num(array_access_ins, array_var_name):
+	global temp_var_reg, var_map
+	nor = parse_gep(array_access_ins, array_var_name)
+	ret = nor.replace("%%", "%")
+	return ret 
 
 def parse_global_size(var, struct_size):
     size = -1
@@ -232,7 +318,13 @@ def parse_execution_sequence(seq_str):
     """解析执行序列，处理ANSI转义字符和无效输入"""
     clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str) 
     # 使用正则表达式提取每行的完整函数和编号
-    return re.findall(r'(\w+\*\d+)', clean_str)
+    exec_sequence = re.findall(r'(\w+\*\d+)', clean_str)
+    seq_number = defaultdict(int)
+    for bb in exec_sequence:
+        seq_number[bb] += 1
+    sorted_seq  = dict(sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
+    return exec_sequence, sorted_seq
+
 
 def build_variable_graph(bb_vars, exec_sequence, window_size=10):
     """构建变量访问图并计算权重"""
@@ -316,13 +408,14 @@ def main():
         # 读取执行序列
         with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
-        # 处理数据
 
+
+		# 处理数据
+        exec_sequence, seq_number = parse_execution_sequence(exec_content)
+        export_to_file(seq_number , "./seq_number.json")
         struct_size = process_sizes(sizes_file)
-        bb_vars, var_size = parse_bb_variables(cfg_content, struct_size)
+        bb_vars, var_size = parse_bb_variables(cfg_content, struct_size, seq_number)
         export_to_file(bb_vars, "./bb_vars.json")
-        export_to_file(var_size, "./var_size.json")
-        exec_sequence = parse_execution_sequence(exec_content)
         edge_weights = build_variable_graph(bb_vars, exec_sequence, 10)
 
         # 生成输出

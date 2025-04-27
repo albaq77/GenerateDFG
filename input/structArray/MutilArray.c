@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define ITERATIONS 4000
+#define ITERATIONS 40
 #define RAND_MOD 100
 #define ARRAY_SIZE 10
 
@@ -17,6 +17,7 @@ typedef struct {
 HotData hot_array[ARRAY_SIZE];
 HotData hot_data;
 int localArray[ITERATIONS][ITERATIONS];
+int local3Array[ITERATIONS][ITERATIONS][ITERATIONS];
 
 void f() {
     for (int i = 0; i < ARRAY_SIZE; i++) {
@@ -49,6 +50,21 @@ int main() {
             //4
             localArray[i][j] = rand() % RAND_MOD + 1;
             hot_array[j].a= rand() % RAND_MOD + 1;
+            for (int k = 0; k < ITERATIONS; k++) {
+                local3Array[i][j][k] = rand() % RAND_MOD + 1;
+                local3Array[i][k][j] = rand() % RAND_MOD + 1;
+                local3Array[j][i][k] = rand() % RAND_MOD + 1;
+                local3Array[j][k][i] = rand() % RAND_MOD + 1;
+                local3Array[k][i][j] = rand() % RAND_MOD + 1;
+                local3Array[k][j][i] = rand() % RAND_MOD + 1;
+                local3Array[0][0][i] = rand() % RAND_MOD + 1;
+                local3Array[j][0][0] = rand() % RAND_MOD + 1;
+                local3Array[j][3][0] = rand() % RAND_MOD + 1;
+                local3Array[10][0][k] = rand() % RAND_MOD + 1;
+                local3Array[0][k][i] = rand() % RAND_MOD + 1;
+                local3Array[1][j][j] = rand() % RAND_MOD + 1;
+                local3Array[0][k][0] = rand() % RAND_MOD + 1;
+            }
         }
         //5
         /* 高频核心运算 */

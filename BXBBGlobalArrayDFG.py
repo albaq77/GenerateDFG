@@ -224,6 +224,7 @@ def get_dim_tem_num(array_access_ins, array_var_name):
 	ret = nor.replace("%%", "%")
 	return ret 
 
+
 def parse_execution_sequence(seq_str):
     """解析执行序列，处理ANSI转义字符和无效输入"""
     clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str) 
@@ -235,111 +236,40 @@ def parse_execution_sequence(seq_str):
     sorted_seq  = dict(sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
     return exec_sequence, sorted_seq
 
-
-def build_variable_graph(bb_vars, exec_sequence, window_size=10):
-    """构建变量访问图并计算权重"""
-    edge_weights = defaultdict(int)
-    weight_window = OrderedDict()  # 使用 OrderedDict 保证顺序
-
-    for bb in exec_sequence:
-        curr_vars = bb_vars.get(bb, [])
-        if not curr_vars:
-            continue
-
-        for curr_var in curr_vars:
-            if curr_var not in weight_window:
-                # 计算权重并更新边
-                for last_var in list(weight_window.keys()):  
-                    # 使用集合来表示无向边
-                    edge = frozenset([last_var, curr_var])
-                    edge_weights[edge] += 1
-                    weight_window[last_var] -= 1
-
-                
-                # 检查并移除第一个元素的权重是否为0
-                if weight_window:
-                    first_var, first_weight = next(iter(weight_window.items()))
-                    if first_weight <= 0:
-                        weight_window.popitem(last=False)
-                weight_window[curr_var] = window_size
-
-    return edge_weights   
-
-def generate_dot(edge_weights):
-    """生成优化的DOT文件"""
-    dot = ["strict digraph {"]
-    number = 0
-    node_nums = {}
-    
-    # 创建节点集合
-    nodes = set()
-    for (src, dest) in edge_weights:
-        nodes.add(src)
-        nodes.add(dest)
-    
-    # 添加节点定义
-    for node in sorted(nodes):
-        number += 1
-        node_nums[node] = number
-        dot.append(f'  {node_nums[node]} [label="{node}", color=blue, shape=record];')
-    
-    # 添加边定义（按权重降序排列）
-    for (src, dest), weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
-        dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight={weight}", weight="{weight}"];')
-    
-    dot.append("}")
-    return '\n'.join(dot)
-
-
 def export_to_file(bb_vars, output_path):
-    """将基本块变量信息写入指定文件"""
-    try:
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(bb_vars, f, indent=2, ensure_ascii=False)
-            logging.info(f"成功写入JSON文件：{output_path}")
-            
-    except IOError as e:
-        logging.error(f"文件写入失败：{str(e)}")
-    except Exception as e:
-        logging.error(f"发生意外错误：{str(e)}")
+	"""将基本块变量信息写入指定文件"""
+	try:
+		with open(output_path, 'w', encoding='utf-8') as f:
+			json.dump(bb_vars, f, indent=2, ensure_ascii=False)
+			logging.info(f"成功写入JSON文件：{output_path}")
+			
+	except IOError as e:
+		logging.error(f"文件写入失败：{str(e)}")
+	except Exception as e:
+		logging.error(f"发生意外错误：{str(e)}")
 
 
 def main():
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
-    
-    try:
+	logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+	
+	try:
 
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/GlobalAndStructSizes.txt', 'r') as f:
-            sizes_file = f.read()
-
-        # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlock.txt', 'r') as f:
-            cfg_content = f.read()
-        
-        # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlockNum.txt', 'r') as f:
-            exec_content = f.read()
-        
+		# 读取CFG文件
+		with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlock.txt', 'r') as f:
+			cfg_content = f.read()
+			
+		# 读取CFG文件
+		with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlockNum.txt', 'r') as f:
+			exec_content = f.read()
+		
 		# 处理数据
-        exec_sequence, seq_number = parse_execution_sequence(exec_content)
-        export_to_file(seq_number , "./seq_number.json")
-        bb_vars, var_size = parse_bb_variables(cfg_content, seq_number)
-        export_to_file(bb_vars, "./array_bb_vars.json")
-        edge_weights = build_variable_graph(bb_vars, exec_sequence)
-        
-        # 生成输出
-        dot_output = generate_dot(edge_weights)
-        with open('array_temVar_variable_access_graph.dot', 'w') as f:
-            f.write(dot_output)
-        
-        logging.info("变量访问图已生成到 array_temVar_variable_access_graph.dot")
-        logging.info(f"统计信息：")
-        logging.info(f"• 解析到 {len(bb_vars)} 个基本块的变量信息")
-        logging.info(f"• 处理 {len(exec_sequence)} 个执行步骤")
-        logging.info(f"• 生成 {len(edge_weights)} 条依赖边")
-        
-    except Exception as e:
-        logging.error(f"处理失败: {str(e)}")
+		exec_sequence, seq_number = parse_execution_sequence(exec_content)
+		export_to_file(seq_number , "./seq_number.json")
+		bb_vars, var_size = parse_bb_variables(cfg_content, seq_number)
+		export_to_file(bb_vars, "./array_bb_vars.json")
+
+	except Exception as e:
+		logging.error(f"处理失败: {str(e)}")
 
 if __name__ == "__main__":
-    main()
+	main()
