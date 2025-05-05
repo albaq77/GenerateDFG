@@ -24,7 +24,6 @@ def process_sizes(sizes_file):
             sizes[name] = size
     return sizes
 
-
 def parse_bb_variables(cfg_str, struct_size, seq_number):
     global temp_var_reg, var_map
     """从CFG DOT文件解析每个基本块的变量访问序列"""
@@ -37,7 +36,7 @@ def parse_bb_variables(cfg_str, struct_size, seq_number):
     var_pattern = re.compile(r'\b(?:load|store)\b\s+(.*)')
     assign_pattern = re.compile(r'^(%\S+)\s*=\s*(.*)')  # 匹配 %number = ...
     global_var_pattern = re.compile(r'.*,\s*(\[.*?\]\*\s*@\w+),') # 匹配全局数组变量
-    alloca_pattern = re.compile(r'(%\d+)\s*=\s*alloca\s+\S+,\s*align\s*\d+') # temp_var_reg
+    alloca_pattern = re.compile(r'(%\d+)\s*=\s*alloca\s+(.*?)(?:,\s*align\s*(\d+))?$') # temp_var_reg
 
     # 提取所有基本块的代码
     bb_blocks = re.findall(bb_pattern, cfg_str)
@@ -112,8 +111,9 @@ def parse_bb_variables(cfg_str, struct_size, seq_number):
                     if global_var_match:
                         # 如果是全局数组变量，直接添加提取的部分
                         array_var_name = global_var_match[-1]
-                        array_var_name = get_dim_tem_num(reg_name, array_var_name) + "-" + source_location + "-" + str(seq_number[black_name])
-                        variables.append(array_var_name)
+                        array_var_name = get_dim_tem_num(reg_name, array_var_name) + "-" + source_location
+                        if black_name in seq_number:
+                            array_var_name += "-" + str(seq_number[black_name])
                         var_size[array_var_name] = parse_global_size(var, struct_size)
                         continue
                     elif reg_name in var_map:
@@ -130,7 +130,9 @@ def parse_bb_variables(cfg_str, struct_size, seq_number):
                             if global_var_match:
                                 # 找到全局数组变量，停止回溯并添加到 final_vars
                                 array_var_name = global_var_match[-1]
-                                array_var_name = get_dim_tem_num(array_access_ins, array_var_name) + "-" + source_location + "-" + str(seq_number[black_name])
+                                array_var_name = get_dim_tem_num(array_access_ins, array_var_name) + "-" + source_location
+                                if black_name in seq_number:
+                                    array_var_name += "-" + str(seq_number[black_name])
                                 variables.append(array_var_name)
                                 var_size[array_var_name] = parse_global_size(var, struct_size)
                                 var_array = True
@@ -182,6 +184,19 @@ def parse_bb_variables(cfg_str, struct_size, seq_number):
         logging.debug(f"Parsed {bb_key} variables: {variables}")
     
     return bb_vars, var_size
+
+def parse_global_size(var, struct_size):
+    size = -1
+    # 正则表达式模式
+    pattern = r'@([\w\d_.]+)'
+    # 使用 re.search 找到第一个匹配
+    match = re.findall(pattern, var)
+    if match:
+        # 提取匹配的名称
+        stutsize = struct_size.get('@' + match[0])
+        if stutsize is not None:
+           size = stutsize
+    return size
 
 def uni_backtrace_register(next_reg):
 	global temp_var_reg, var_map
@@ -301,19 +316,6 @@ def get_dim_tem_num(array_access_ins, array_var_name):
 	ret = nor.replace("%%", "%")
 	return ret 
 
-def parse_global_size(var, struct_size):
-    size = -1
-    # 正则表达式模式
-    pattern = r'@([\w\d_.]+)'
-    # 使用 re.search 找到第一个匹配
-    match = re.findall(pattern, var)
-    if match:
-        # 提取匹配的名称
-        stutsize = struct_size.get('@' + match[0])
-        if stutsize is not None:
-           size = stutsize
-    return size
-
 def parse_execution_sequence(seq_str):
     """解析执行序列，处理ANSI转义字符和无效输入"""
     clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str) 
@@ -324,7 +326,6 @@ def parse_execution_sequence(seq_str):
         seq_number[bb] += 1
     sorted_seq  = dict(sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
     return exec_sequence, sorted_seq
-
 
 def build_variable_graph(bb_vars, exec_sequence, window_size=10):
     """构建变量访问图并计算权重"""
@@ -398,15 +399,15 @@ def main():
     
     try:
 
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/GlobalAndStructSizes.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/C++/GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
         # 读取CFG文件
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlock.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/C++/BasicBlock.txt', 'r') as f:
             cfg_content = f.read()
         
         # 读取执行序列
-        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/BasicBlockNum.txt', 'r') as f:
+        with open(r'/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/C++/BasicBlockNum.txt', 'r') as f:
             exec_content = f.read()
 
 

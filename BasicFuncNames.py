@@ -8,7 +8,6 @@ def parse_bb_variables(cfg_str):
     
     # 正则表达式匹配基本块和其对应的指令
     bb_pattern = r"\[.*?\]@(.+?)\*(\d+)\n([\s\S]*?)(?=\n\[.*?\]@.+?\*\d+|\Z)"
-
     # 提取所有基本块的代码
     bb_blocks = re.findall(bb_pattern, cfg_str)
     
