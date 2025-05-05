@@ -1,0 +1,5 @@
+strict digraph dhcp_set_struct {
+  1 [label="%struct.dhcp*-%struct.dhcp** %4", size=104, color=blue, shape=record];
+  2 [label="%struct.netif*-%struct.netif** %3", size=408, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

@@ -18,7 +18,7 @@ def parse_bb_variables(cfg_str, seq_number):
 	var_pattern = re.compile(r'\b(?:load|store)\b\s+(.*)')
 	assign_pattern = re.compile(r'^(%\S+)\s*=\s*(.*)')  # 匹配 %number = ...
 	global_var_pattern = re.compile(r'.*,\s*(\[.*?\]\*\s*@\w+),') # 匹配全局数组变量
-	alloca_pattern = re.compile(r'(%\d+)\s*=\s*alloca\s+\S+,\s*align\s*\d+') # temp_var_reg
+	alloca_pattern = re.compile(r'(%\d+)\s*=\s*alloca\s+(.*?)(?:,\s*align\s*(\d+))?$') # temp_var_reg
 
 	# 提取所有基本块的代码
 	bb_blocks = re.findall(bb_pattern, cfg_str)
@@ -217,7 +217,6 @@ def parse_gep(mycmd: str, array_var_name: str):
 
     return indexing
 
-
 def get_dim_tem_num(array_access_ins, array_var_name):
 	global temp_var_reg, var_map
 	nor = parse_gep(array_access_ins, array_var_name)
@@ -234,7 +233,6 @@ def parse_execution_sequence(seq_str):
         seq_number[bb] += 1
     sorted_seq  = dict(sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
     return exec_sequence, sorted_seq
-
 
 def build_variable_graph(bb_vars, exec_sequence, window_size=10):
     """构建变量访问图并计算权重"""
@@ -282,14 +280,21 @@ def generate_dot(edge_weights):
         number += 1
         node_nums[node] = number
         dot.append(f'  {node_nums[node]} [label="{node}", color=blue, shape=record];')
+
+    lastNode = None
+        # 添加节点定义
+    for node in sorted(nodes):
+        if lastNode:
+            dot.append(f'  {node_nums[lastNode]} -> {node_nums[node]} [label="weight=1", weight="1"];')
+        lastNode = node
     
-    # 添加边定义（按权重降序排列）
-    for (src, dest), weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
-        dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight={weight}", weight="{weight}"];')
+    # # 添加边定义（按权重降序排列）
+    # for (src, dest), weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
+    #     # dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight={weight}", weight="{weight}"];')
+    #     dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight=1", weight="1"];')
     
     dot.append("}")
     return '\n'.join(dot)
-
 
 def export_to_file(bb_vars, output_path):
     """将基本块变量信息写入指定文件"""
@@ -302,7 +307,6 @@ def export_to_file(bb_vars, output_path):
         logging.error(f"文件写入失败：{str(e)}")
     except Exception as e:
         logging.error(f"发生意外错误：{str(e)}")
-
 
 def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')

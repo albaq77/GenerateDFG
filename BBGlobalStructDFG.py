@@ -186,7 +186,6 @@ def export_to_file(bb_vars, output_path):
     except Exception as e:
         logging.error(f"发生意外错误：{str(e)}")
 
-
 def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
     

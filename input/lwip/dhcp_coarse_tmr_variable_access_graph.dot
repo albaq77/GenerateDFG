@@ -1,0 +1,12 @@
+strict digraph dhcp_coarse_tmr {
+  1 [label="%struct.dhcp*-%struct.dhcp** %2", size=104, color=blue, shape=record];
+  2 [label="%struct.dhcp*-i16* %struct.dhcp* %2, i32 0, i32 9", size=2, color=blue, shape=record];
+  3 [label="%struct.dhcp*-i8* %struct.dhcp* %2, i32 0, i32 2", size=1, color=blue, shape=record];
+  4 [label="%struct.netif*-%struct.netif** %1", size=408, color=blue, shape=record];
+  1 -> 4 [label="weight=1", weight="1"];
+  4 -> 3 [label="weight=1", weight="1"];
+  1 -> 3 [label="weight=1", weight="1"];
+  2 -> 4 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
+  2 -> 3 [label="weight=1", weight="1"];
+}

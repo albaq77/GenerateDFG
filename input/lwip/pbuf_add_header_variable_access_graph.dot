@@ -1,0 +1,5 @@
+strict digraph pbuf_add_header {
+  1 [label="%struct.pbuf*-%struct.pbuf** %3", size=24, color=blue, shape=record];
+  2 [label="i64-i64* %4", size=8, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

@@ -43,6 +43,32 @@ int main() {
     // 混合使用栈变量和全局变量
     //1
     f();
+
+    //需要分析源码
+    // i --> %1; j --> %2
+    int i = 0, j = 0;
+    for (; j < ITERATIONS; j++) {
+        for (; i < ITERATIONS; i++) {
+            localArray[j][i] = rand() + 1;
+            // 40 x [40 x i32]]* @localArraylocalArray['%2']['%1']
+            localArray[i][j] = rand() + 1;
+            // 40 x [40 x i32]]* @localArraylocalArray['%1']['%2']
+        }
+    }
+
+    //不需要分析源码
+    // i --> %1; j --> %2
+    int i = 0, j = 0;
+    for (; i < ITERATIONS; i++) {
+        for (; j < ITERATIONS; j++) {
+            localArray[i][j] = rand() + 1;
+            // 40 x [40 x i32]]* @localArraylocalArray['%1']['%2']
+            localArray[j][i] = rand() + 1;
+            // 40 x [40 x i32]]* @localArraylocalArray['%2']['%1']
+        }
+    }
+
+    //不需要分析源码
     //2
     for (int i = 0; i < ITERATIONS; i++) {
         //3

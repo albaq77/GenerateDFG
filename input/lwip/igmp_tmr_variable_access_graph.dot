@@ -1,0 +1,8 @@
+strict digraph igmp_tmr {
+  1 [label="%struct.igmp_group*-%struct.igmp_group** %2", size=24, color=blue, shape=record];
+  2 [label="%struct.igmp_group*-i16* %struct.igmp_group* %2, i32 0, i32 4", size=2, color=blue, shape=record];
+  3 [label="%struct.netif*-%struct.netif** %1", size=408, color=blue, shape=record];
+  3 -> 1 [label="weight=1", weight="1"];
+  2 -> 3 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
+}

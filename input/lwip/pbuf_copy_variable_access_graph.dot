@@ -1,0 +1,5 @@
+strict digraph pbuf_copy {
+  1 [label="%struct.pbuf*-%struct.pbuf** %4", size=24, color=blue, shape=record];
+  2 [label="%struct.pbuf*-%struct.pbuf** %5", size=24, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

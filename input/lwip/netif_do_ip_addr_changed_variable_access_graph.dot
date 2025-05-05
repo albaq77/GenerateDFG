@@ -1,0 +1,5 @@
+strict digraph netif_do_ip_addr_changed {
+  1 [label="%struct.ip_addr*-%struct.ip_addr** %3", size=24, color=blue, shape=record];
+  2 [label="%struct.ip_addr*-%struct.ip_addr** %4", size=24, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

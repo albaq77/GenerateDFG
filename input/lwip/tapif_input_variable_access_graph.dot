@@ -1,0 +1,5 @@
+strict digraph tapif_input {
+  1 [label="%struct.netif*-%struct.netif** %2", size=408, color=blue, shape=record];
+  2 [label="%struct.pbuf*-%struct.pbuf** %3", size=24, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

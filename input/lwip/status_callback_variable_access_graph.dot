@@ -1,0 +1,5 @@
+strict digraph status_callback {
+  1 [label="%struct.netif*-%struct.netif** %2", size=408, color=blue, shape=record];
+  2 [label="%struct.netif*-i8* %struct.netif* %2, i32 0, i32 20", size=1, color=blue, shape=record];
+  2 -> 1 [label="weight=1", weight="1"];
+}

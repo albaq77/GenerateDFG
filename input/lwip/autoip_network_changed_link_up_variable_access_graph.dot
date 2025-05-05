@@ -1,0 +1,5 @@
+strict digraph autoip_network_changed_link_up {
+  1 [label="%struct.autoip*-%struct.autoip** %3", size=40, color=blue, shape=record];
+  2 [label="%struct.netif*-%struct.netif** %2", size=408, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

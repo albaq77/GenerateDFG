@@ -1,0 +1,5 @@
+strict digraph ip6_reass_tmr {
+  1 [label="%struct.ip6_reassdata*-%struct.ip6_reassdata** %1", size=88, color=blue, shape=record];
+  2 [label="%struct.ip6_reassdata*-i8* %struct.ip6_reassdata* %1, i32 0, i32 9", size=1, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}

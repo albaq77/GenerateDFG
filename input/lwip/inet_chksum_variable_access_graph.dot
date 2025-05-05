@@ -1,0 +1,5 @@
+strict digraph inet_chksum {
+  1 [label="i16-i16* %4", size=2, color=blue, shape=record];
+  2 [label="i8*-i8** %3", size=1, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
+}
