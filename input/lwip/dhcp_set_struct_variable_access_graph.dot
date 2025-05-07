@@ -1,5 +1,3 @@
-strict digraph dhcp_set_struct {
-  1 [label="%struct.dhcp** %4", size=104, color=blue, shape=record];
-  2 [label="%struct.netif** %3", size=408, color=blue, shape=record];
-  2 -> 1 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:98fa39daf2d9c3c17f4ac4e6dec034cd55444fee1a6ff8ba8d19777b5dd7612f
+size 218

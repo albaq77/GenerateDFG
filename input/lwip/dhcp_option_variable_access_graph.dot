@@ -1,12 +1,3 @@
-strict digraph dhcp_option {
-  1 [label="i16* %5", size=2, color=blue, shape=record];
-  2 [label="i8* %7", size=1, color=blue, shape=record];
-  3 [label="i8* %8", size=1, color=blue, shape=record];
-  4 [label="i8** %6", size=1, color=blue, shape=record];
-  1 -> 4 [label="weight=1", weight="1"];
-  1 -> 2 [label="weight=1", weight="1"];
-  2 -> 4 [label="weight=1", weight="1"];
-  1 -> 3 [label="weight=1", weight="1"];
-  3 -> 4 [label="weight=1", weight="1"];
-  2 -> 3 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:0e69c382efe1701a343c1455006f963e82ca2428b40bcb186d72ce4347259514
+size 513

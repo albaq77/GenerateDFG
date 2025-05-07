@@ -1,12 +1,3 @@
-strict digraph pbuf_free {
-  1 [label="%struct.pbuf** %3", size=24, color=blue, shape=record];
-  2 [label="i32* %8", size=4, color=blue, shape=record];
-  3 [label="i8* %2", size=1, color=blue, shape=record];
-  4 [label="i8* %6", size=1, color=blue, shape=record];
-  3 -> 1 [label="weight=1", weight="1"];
-  2 -> 1 [label="weight=1", weight="1"];
-  3 -> 2 [label="weight=1", weight="1"];
-  4 -> 1 [label="weight=1", weight="1"];
-  3 -> 4 [label="weight=1", weight="1"];
-  2 -> 4 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:c702f7bb0c08319999ea47893886575f724dcf2c02a08a5e5aaccfcfd251f968
+size 522

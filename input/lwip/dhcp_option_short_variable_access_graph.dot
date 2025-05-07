@@ -1,8 +1,3 @@
-strict digraph dhcp_option_short {
-  1 [label="i16* %4", size=2, color=blue, shape=record];
-  2 [label="i16* %6", size=2, color=blue, shape=record];
-  3 [label="i8** %5", size=1, color=blue, shape=record];
-  3 -> 1 [label="weight=1", weight="1"];
-  2 -> 1 [label="weight=1", weight="1"];
-  2 -> 3 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:bf746c23f2d41f038e16657e49a6dd69a791da7cad99edabe8378a3477fc4bf1
+size 337

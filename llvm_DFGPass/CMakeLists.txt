@@ -1,10 +1,3 @@
-cmake_minimum_required(VERSION 3.1)
-
-find_package(LLVM REQUIRED CONFIG)
-list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
-include(AddLLVM)
-add_definitions(${LLVM_DEFINITIONS})
-include_directories(${LLVM_INCLUDE_DIRS})
-link_directories(${LLVM_LIBRARY_DIRS})
-
-add_subdirectory(DFG)  # Use your pass name here.
+version https://git-lfs.github.com/spec/v1
+oid sha256:fe6ca3783b2a7b5d24586bdcd34295a1b8d00045aab315890866577df1eb0b2e
+size 319

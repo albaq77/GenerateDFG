@@ -1,12 +1,3 @@
-strict digraph etharp_output {
-  1 [label="%struct.ip4_addr** %10", size=4, color=blue, shape=record];
-  2 [label="%struct.ip4_addr** %7", size=4, color=blue, shape=record];
-  3 [label="%struct.netif** %5", size=408, color=blue, shape=record];
-  4 [label="%struct.pbuf** %6", size=24, color=blue, shape=record];
-  4 -> 3 [label="weight=1", weight="1"];
-  2 -> 3 [label="weight=1", weight="1"];
-  4 -> 2 [label="weight=1", weight="1"];
-  1 -> 3 [label="weight=1", weight="1"];
-  4 -> 1 [label="weight=1", weight="1"];
-  2 -> 1 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:89b938730b944b5202c43c07277018c640420d06899079e56911f15808867591
+size 570

@@ -1,5 +1,3 @@
-strict digraph ip_reass_tmr {
-  1 [label="%struct.ip_reassdata** %1", size=40, color=blue, shape=record];
-  2 [label="%struct.ip_reassdata** %2", size=40, color=blue, shape=record];
-  1 -> 2 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:b1e0900e81aa74239ab40a1fd379ad3c7490567b5528d08824d936317d3d014a
+size 228

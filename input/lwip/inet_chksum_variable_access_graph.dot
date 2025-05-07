@@ -1,5 +1,3 @@
-strict digraph inet_chksum {
-  1 [label="i16* %4", size=2, color=blue, shape=record];
-  2 [label="i8** %3", size=1, color=blue, shape=record];
-  2 -> 1 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:13f3dfe0e0afb0e547a0debd29949b3087358efe521b7bdbb3fe7029acdacad9
+size 189

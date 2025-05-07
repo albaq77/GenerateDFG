@@ -1,14 +1,3 @@
-{
-  "%struct._IO_FILE** @stdout": 8,
-  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 5)": 8,
-  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 28)": 8,
-  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 7)": 8,
-  "double* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 19)": 8,
-  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 18)": 8,
-  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 3)": 8,
-  "%struct._IO_FILE** @stderr": 8,
-  "%struct.arc** @full_group_end_arc": 8,
-  "%struct.basket**** @perm_p": 8,
-  "%struct.basket** @basket": 8,
-  "%struct.basket*** @opt_basket": 8
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:5eb6702e2859803288d00da2acf8d41dd3dede7bbef7f43af90ef266596b63a4
+size 785

@@ -1,17 +1,3 @@
-strict digraph tcpip_inpkt {
-  1 [label="%struct.netif*)* %2, i8 (%struct.pbuf*, %struct.netif*)** %7", size=408, color=blue, shape=record];
-  2 [label="%struct.netif** %6", size=408, color=blue, shape=record];
-  3 [label="%struct.pbuf** %5", size=24, color=blue, shape=record];
-  4 [label="%struct.tcpip_msg** %8", size=32, color=blue, shape=record];
-  5 [label="i8* %4", size=1, color=blue, shape=record];
-  2 -> 3 [label="weight=1", weight="1"];
-  3 -> 1 [label="weight=1", weight="1"];
-  2 -> 1 [label="weight=1", weight="1"];
-  4 -> 3 [label="weight=1", weight="1"];
-  4 -> 2 [label="weight=1", weight="1"];
-  4 -> 1 [label="weight=1", weight="1"];
-  5 -> 3 [label="weight=1", weight="1"];
-  2 -> 5 [label="weight=1", weight="1"];
-  5 -> 1 [label="weight=1", weight="1"];
-  4 -> 5 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:cdb7ea2dcd9a9563338631d3d6f378feeb8583e0ca8225d734965e19904c1deb
+size 835

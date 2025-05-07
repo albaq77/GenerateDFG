@@ -1,30 +1,3 @@
-strict digraph pbuf_take {
-  1 [label="%struct.pbuf** %5", size=24, color=blue, shape=record];
-  2 [label="i16* %7", size=2, color=blue, shape=record];
-  3 [label="i16* %struct.pbuf* %5, i32 0, i32 2", size=2, color=blue, shape=record];
-  4 [label="i64* %10", size=8, color=blue, shape=record];
-  5 [label="i64* %11", size=8, color=blue, shape=record];
-  6 [label="i8* %4", size=1, color=blue, shape=record];
-  7 [label="i8** %6", size=1, color=blue, shape=record];
-  7 -> 1 [label="weight=1", weight="1"];
-  2 -> 1 [label="weight=1", weight="1"];
-  2 -> 7 [label="weight=1", weight="1"];
-  4 -> 1 [label="weight=1", weight="1"];
-  4 -> 7 [label="weight=1", weight="1"];
-  2 -> 4 [label="weight=1", weight="1"];
-  5 -> 1 [label="weight=1", weight="1"];
-  5 -> 7 [label="weight=1", weight="1"];
-  2 -> 5 [label="weight=1", weight="1"];
-  4 -> 5 [label="weight=1", weight="1"];
-  6 -> 1 [label="weight=1", weight="1"];
-  6 -> 7 [label="weight=1", weight="1"];
-  2 -> 6 [label="weight=1", weight="1"];
-  4 -> 6 [label="weight=1", weight="1"];
-  5 -> 6 [label="weight=1", weight="1"];
-  3 -> 1 [label="weight=1", weight="1"];
-  3 -> 7 [label="weight=1", weight="1"];
-  3 -> 2 [label="weight=1", weight="1"];
-  3 -> 4 [label="weight=1", weight="1"];
-  3 -> 5 [label="weight=1", weight="1"];
-  3 -> 6 [label="weight=1", weight="1"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:f724d11b5d32dd57dad476e31ca9fbc125eb356fbbb7a8a5685d4b6964abaaa4
+size 1357

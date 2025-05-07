@@ -1,20 +1,3 @@
-digraph "CFG for'f' function" {
-	BB0 [shape=record, label="{BB0:\l\l  %call = call i32 @rand() #3\l
-  %rem = srem i32 %call, 100\l
-  store i32 %rem, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
-  %0 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
-  %and = and i32 %0, 1\l
-  %tobool = icmp ne i32 %and, 0\l
-  br i1 %tobool, label %if.then, label %if.end\l
-}"];
-	BB0-> BB1;
-	BB0-> BB2;
-	BB1 [shape=record, label="{BB1:\l\l  %1 = load i32, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
-  %inc = add nsw i32 %1, 1\l
-  store i32 %inc, i32* getelementptr inbounds (%struct.anon, %struct.anon* @hot_data, i32 0, i32 0), align 4\l
-  br label %if.end\l
-}"];
-	BB1-> BB2;
-	BB2 [shape=record, label="{BB2:\l\l  ret void\l
-}"];
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:db424c033fce40ebcf4363982f1735ffdc20341fc7d5ed444130486f3c3057aa
+size 889
