@@ -1,8 +1,12 @@
 strict digraph dhcp_fine_tmr {
-  1 [label="%struct.dhcp*-%struct.dhcp** %2", size=104, color=blue, shape=record];
-  2 [label="%struct.dhcp*-i16* %struct.dhcp* %2, i32 0, i32 5", size=2, color=blue, shape=record];
-  3 [label="%struct.netif*-%struct.netif** %1", size=408, color=blue, shape=record];
-  1 -> 3 [label="weight=1", weight="1"];
-  3 -> 2 [label="weight=1", weight="1"];
+  1 [label="%struct.dhcp** %2", size=104, color=blue, shape=record];
+  2 [label="%struct.netif** %1", size=408, color=blue, shape=record];
+  3 [label="[6 x i8*]* %struct.netif* %1, i32 0, i32 15[0]-../../../../src/core/ipv4/dhcp.c:553-399", size=-1, color=blue, shape=record];
+  4 [label="i16* %struct.dhcp* %2, i32 0, i32 5", size=2, color=blue, shape=record];
+  2 -> 3 [label="weight=1", weight="1"];
   1 -> 2 [label="weight=1", weight="1"];
+  1 -> 3 [label="weight=1", weight="1"];
+  4 -> 2 [label="weight=1", weight="1"];
+  4 -> 3 [label="weight=1", weight="1"];
+  1 -> 4 [label="weight=1", weight="1"];
 }

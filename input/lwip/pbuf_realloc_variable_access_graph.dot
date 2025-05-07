@@ -1,17 +1,17 @@
 strict digraph pbuf_realloc {
-  1 [label="%struct.pbuf*-%struct.pbuf** %3", size=24, color=blue, shape=record];
-  2 [label="%struct.pbuf*-%struct.pbuf** %5", size=24, color=blue, shape=record];
-  3 [label="%struct.pbuf*-i16* %struct.pbuf* %5, i32 0, i32 3", size=2, color=blue, shape=record];
-  4 [label="i16-i16* %4", size=2, color=blue, shape=record];
-  5 [label="i16-i16* %6", size=2, color=blue, shape=record];
+  1 [label="%struct.pbuf** %3", size=24, color=blue, shape=record];
+  2 [label="%struct.pbuf** %5", size=24, color=blue, shape=record];
+  3 [label="i16* %4", size=2, color=blue, shape=record];
+  4 [label="i16* %6", size=2, color=blue, shape=record];
+  5 [label="i16* %struct.pbuf* %5, i32 0, i32 3", size=2, color=blue, shape=record];
+  3 -> 1 [label="weight=1", weight="1"];
   4 -> 1 [label="weight=1", weight="1"];
-  1 -> 5 [label="weight=1", weight="1"];
-  4 -> 5 [label="weight=1", weight="1"];
-  1 -> 2 [label="weight=1", weight="1"];
-  4 -> 2 [label="weight=1", weight="1"];
-  5 -> 2 [label="weight=1", weight="1"];
-  1 -> 3 [label="weight=1", weight="1"];
   4 -> 3 [label="weight=1", weight="1"];
-  5 -> 3 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
   2 -> 3 [label="weight=1", weight="1"];
+  4 -> 2 [label="weight=1", weight="1"];
+  5 -> 1 [label="weight=1", weight="1"];
+  5 -> 3 [label="weight=1", weight="1"];
+  5 -> 4 [label="weight=1", weight="1"];
+  5 -> 2 [label="weight=1", weight="1"];
 }

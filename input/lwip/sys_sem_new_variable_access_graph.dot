@@ -1,5 +1,5 @@
 strict digraph sys_sem_new {
-  1 [label="%struct.sys_sem**-%struct.sys_sem*** %4", size=96, color=blue, shape=record];
-  2 [label="i8-i8* %5", size=1, color=blue, shape=record];
-  1 -> 2 [label="weight=1", weight="1"];
+  1 [label="%struct.sys_sem*** %4", size=96, color=blue, shape=record];
+  2 [label="i8* %5", size=1, color=blue, shape=record];
+  2 -> 1 [label="weight=1", weight="1"];
 }

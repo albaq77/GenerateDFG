@@ -1,0 +1,14 @@
+{
+  "%struct._IO_FILE** @stdout": 8,
+  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 5)": 8,
+  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 28)": 8,
+  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 7)": 8,
+  "double* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 19)": 8,
+  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 18)": 8,
+  "i64* getelementptr inbounds (%struct.network, %struct.network* @net, i32 0, i32 3)": 8,
+  "%struct._IO_FILE** @stderr": 8,
+  "%struct.arc** @full_group_end_arc": 8,
+  "%struct.basket**** @perm_p": 8,
+  "%struct.basket** @basket": 8,
+  "%struct.basket*** @opt_basket": 8
+}

@@ -1,8 +1,12 @@
 strict digraph dhcp_network_changed_link_up {
-  1 [label="%struct.dhcp*-%struct.dhcp** %3", size=104, color=blue, shape=record];
-  2 [label="%struct.dhcp*-i8* %struct.dhcp* %3, i32 0, i32 3", size=1, color=blue, shape=record];
-  3 [label="%struct.netif*-%struct.netif** %2", size=408, color=blue, shape=record];
-  1 -> 3 [label="weight=1", weight="1"];
-  2 -> 3 [label="weight=1", weight="1"];
-  1 -> 2 [label="weight=1", weight="1"];
+  1 [label="%struct.dhcp** %3", size=104, color=blue, shape=record];
+  2 [label="%struct.netif** %2", size=408, color=blue, shape=record];
+  3 [label="[6 x i8*]* %struct.netif* %2, i32 0, i32 15[0]-../../../../src/core/ipv4/dhcp.c:940-2", size=-1, color=blue, shape=record];
+  4 [label="i8* %struct.dhcp* %3, i32 0, i32 3", size=1, color=blue, shape=record];
+  3 -> 2 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
+  3 -> 1 [label="weight=1", weight="1"];
+  2 -> 4 [label="weight=1", weight="1"];
+  3 -> 4 [label="weight=1", weight="1"];
+  1 -> 4 [label="weight=1", weight="1"];
 }

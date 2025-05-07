@@ -1,5 +1,5 @@
 strict digraph sys_mutex_lock {
-  1 [label="%struct.sys_mutex**-%struct.sys_mutex** %3", size=40, color=blue, shape=record];
-  2 [label="%struct.sys_mutex**-%struct.sys_mutex*** %2", size=40, color=blue, shape=record];
+  1 [label="%struct.sys_mutex** %3", size=40, color=blue, shape=record];
+  2 [label="%struct.sys_mutex*** %2", size=40, color=blue, shape=record];
   1 -> 2 [label="weight=1", weight="1"];
 }

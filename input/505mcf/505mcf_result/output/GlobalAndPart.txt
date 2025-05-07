@@ -1,5 +1,0 @@
-INFO - 统计信息：
-INFO - • 解析到 655 个基本块的变量信息
-INFO - • 处理 52527183 个执行步骤
-INFO - • Global 1344523 Access
-INFO - • Part 62755156 Access

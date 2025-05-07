@@ -1,8 +1,8 @@
 strict digraph dhcp_option_byte {
-  1 [label="i16-i16* %4", size=2, color=blue, shape=record];
-  2 [label="i8*-i8** %5", size=1, color=blue, shape=record];
-  3 [label="i8-i8* %6", size=1, color=blue, shape=record];
-  2 -> 1 [label="weight=1", weight="1"];
+  1 [label="i16* %4", size=2, color=blue, shape=record];
+  2 [label="i8* %6", size=1, color=blue, shape=record];
+  3 [label="i8** %5", size=1, color=blue, shape=record];
   3 -> 1 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
   2 -> 3 [label="weight=1", weight="1"];
 }

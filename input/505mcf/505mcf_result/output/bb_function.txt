@@ -1,1 +1,0 @@
-cost_compare resize_prob arc_compare main flow_cost spec_qsort replace_weaker_arc 

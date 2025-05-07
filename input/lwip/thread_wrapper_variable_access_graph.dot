@@ -1,8 +1,8 @@
 strict digraph thread_wrapper {
-  1 [label="%struct.anon.1.1001*-%struct.anon.1.1001** %3", size=266, color=blue, shape=record];
-  2 [label="%struct.anon.1.1001*-i8** %struct.anon.1.1001* %3, i32 0, i32 1", size=1, color=blue, shape=record];
-  3 [label="i8*-i8** %2", size=1, color=blue, shape=record];
-  3 -> 1 [label="weight=1", weight="1"];
-  3 -> 2 [label="weight=1", weight="1"];
+  1 [label="%struct.anon.1.1001** %3", size=266, color=blue, shape=record];
+  2 [label="i8** %2", size=1, color=blue, shape=record];
+  3 [label="i8** %struct.anon.1.1001* %3, i32 0, i32 1", size=1, color=blue, shape=record];
   1 -> 2 [label="weight=1", weight="1"];
+  3 -> 2 [label="weight=1", weight="1"];
+  3 -> 1 [label="weight=1", weight="1"];
 }

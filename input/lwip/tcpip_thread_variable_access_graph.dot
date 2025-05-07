@@ -1,5 +1,5 @@
 strict digraph tcpip_thread {
-  1 [label="%struct.tcpip_msg*-%struct.tcpip_msg** %3", size=32, color=blue, shape=record];
-  2 [label="i8*-i8** %2", size=1, color=blue, shape=record];
-  2 -> 1 [label="weight=1", weight="1"];
+  1 [label="%struct.tcpip_msg** %3", size=32, color=blue, shape=record];
+  2 [label="i8** %2", size=1, color=blue, shape=record];
+  1 -> 2 [label="weight=1", weight="1"];
 }

@@ -1,12 +1,12 @@
 strict digraph netif_invoke_ext_callback {
-  1 [label="%struct.netif*-%struct.netif** %4", size=408, color=blue, shape=record];
-  2 [label="%struct.netif_ext_callback*-%struct.netif_ext_callback** %7", size=16, color=blue, shape=record];
-  3 [label="%union.netif_ext_callback_args_t*-%union.netif_ext_callback_args_t** %6", size=0, color=blue, shape=record];
-  4 [label="i16-i16* %5", size=2, color=blue, shape=record];
-  1 -> 4 [label="weight=1", weight="1"];
-  1 -> 3 [label="weight=1", weight="1"];
+  1 [label="%struct.netif** %4", size=408, color=blue, shape=record];
+  2 [label="%struct.netif_ext_callback** %7", size=16, color=blue, shape=record];
+  3 [label="%union.netif_ext_callback_args_t** %6", size=0, color=blue, shape=record];
+  4 [label="i16* %5", size=2, color=blue, shape=record];
+  4 -> 1 [label="weight=1", weight="1"];
+  3 -> 1 [label="weight=1", weight="1"];
   4 -> 3 [label="weight=1", weight="1"];
-  1 -> 2 [label="weight=1", weight="1"];
-  4 -> 2 [label="weight=1", weight="1"];
+  2 -> 1 [label="weight=1", weight="1"];
+  2 -> 4 [label="weight=1", weight="1"];
   2 -> 3 [label="weight=1", weight="1"];
 }
