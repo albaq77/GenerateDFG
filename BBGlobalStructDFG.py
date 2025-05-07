@@ -1,7 +1,6 @@
 import re
 import logging
 import json
-import math
 from collections import defaultdict, OrderedDict, deque
 
 struct_size = {}
