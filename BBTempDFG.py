@@ -5,7 +5,7 @@ import math
 from collections import defaultdict, deque, OrderedDict
 
 var_map = {}
-temp_var_reg = set()
+temp_var_reg = {}
 max_temp = 0
 struct_size = {}
 var_size = {}
@@ -67,6 +67,19 @@ def calculate_type_size(type_str):
     # 默认返回0
     return 0
 
+def pattern_tool(current_value):
+    current_value = current_value.split(', align')[0].split(', !dbg')[0]
+    if ')*' not in current_value:
+        search_str = ',\s*(.*)$'
+        temp_var = re.search(f'{search_str}', current_value)
+        temp_var = temp_var.group(1).strip()
+    else:
+        search_str = '\)\*+\s*,?\s*(.*)$'
+        temp_var = re.search(f'{search_str}', current_value)
+        temp_var = temp_var.group(1).strip()
+        if ', ' in temp_var:
+            temp_var = temp_var.split(', ', 1)[1]
+    return temp_var
 
 def parse_bb_variables(cfg_str, seq_number):
     global temp_var_reg, var_map, max_temp, struct_size, var_size
@@ -132,13 +145,18 @@ def parse_bb_variables(cfg_str, seq_number):
                 var = var_match.group(1).strip()
                 if ', <' in line:
                     var = var.replace('<', '[').replace('>', ']')
-                if re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*align', var):
-                    var = re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*align', var)
-                else:
-                    var = re.search(r',\s*(.*?),\s*align', var)
-                var = var.group(1).strip()
+                var = pattern_tool(var)
                 black_name = f'{func_name}*{bb_num}'
-                base_type, reg_name = var.split(" ", 1)
+                if ']* ' in var:
+                    base_type, var_name = var.split("]* ", 1)
+                    base_type += ']*'
+                elif ')*' in var:
+                    base_type, var_name = var.split(")*", 1)
+                    while var_name.startswith("*") or var_name.startswith(" "):
+                        var_name = var_name[1:]
+                    base_type = split_tool(base_type, " ", 0)
+                else:
+                    base_type, var_name = var.split(" ", 1)
                 size = calculate_type_size(base_type)
                 if '@' not in reg_name:
                     if reg_name in temp_var_reg or int(split_tool(reg_name, '%')) <= max_temp:
@@ -146,7 +164,7 @@ def parse_bb_variables(cfg_str, seq_number):
                         var_name = None
                         if '[' not in temp_var_reg[reg_name]:
                             temp_name = var
-                            var_name = temp_var_reg[reg_name] + '-' + temp_name
+                            var_name = temp_name
                             var_size[temp_name] = calculate_type_size(base_type)
                         else:
                             temp_var_match = temp_var_pattern.findall(reg_name)
@@ -154,18 +172,20 @@ def parse_bb_variables(cfg_str, seq_number):
                                 # 如果是数组变量，直接添加提取的部分
                                 array_var_name = temp_var_match[-1]
                                 if int(split_tool(array_var_name, '%')) > max_temp:
-                                    continue
-                                var_name = get_dim_tem_num(
-                                    reg_name, array_var_name) + "-" + source_location
+                                    reg_matches = re.findall(r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+                                    temp_reg_name = reg_matches[0]
+                                    var_reg = uni_backtrace_register(temp_reg_name)
+                                    if not var_reg:
+                                        break
+                                    array_var_name = array_var_name.replace(temp_reg_name, var_reg)
+                                    reg_name = reg_name.replace(temp_reg_name, var_reg)
+                                var_name = get_dim_tem_num(reg_name, array_var_name) + "-" + source_location
                                 if black_name in seq_number:
-                                    var_name += "-" + \
-                                        str(seq_number[black_name])
+                                    var_name += "-" + str(seq_number[black_name])
                             else:
-                                var_name = temp_var_reg[reg_name] + \
-                                    '-' + reg_name + "-" + source_location
+                                var_name = temp_var_reg[reg_name] + '-' + reg_name + "-" + source_location
                                 if black_name in seq_number:
-                                    var_name += "-" + \
-                                        str(seq_number[black_name])
+                                    var_name += "-" + str(seq_number[black_name])
                         variables.append(var_name)
                     elif reg_name in var_map:
                         var_temp_flag = True
@@ -187,26 +207,25 @@ def parse_bb_variables(cfg_str, seq_number):
                                 # 找到数组变量，停止回溯并添加到 final_vars
                                 array_var_name = temp_var_match[-1]
                                 if int(split_tool(array_var_name, '%')) > max_temp:
-                                    var_temp_flag = False
-                                    continue
-                                var_name = get_dim_tem_num(
-                                    array_access_ins, array_var_name) + "-" + source_location
+                                    reg_matches = re.findall(r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+                                    reg_name = reg_matches[0]
+                                    var_reg = uni_backtrace_register(reg_name)
+                                    if not var_reg:
+                                        var_temp_flag = False
+                                        break
+                                    array_var_name = array_var_name.replace(reg_name, var_reg)
+                                    array_access_ins = array_access_ins.replace(reg_name, var_reg)
+                                var_name = get_dim_tem_num(array_access_ins, array_var_name) + "-" + source_location
                                 if black_name in seq_number:
-                                    var_name += "-" + \
-                                        str(seq_number[black_name])
+                                    var_name += "-" + str(seq_number[black_name])
                                 variables.append(var_name)
                                 var_temp_flag = False
                                 break
                             # 如果当前寄存器还有进一步的定义，继续回溯
-                            reg_matches = re.findall(
-                                r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+                            reg_matches = re.findall(r'%\d+', current_value)  # 使用 findall 查找多个寄存器
                             if 'getelementptr inbounds' in current_value:
-                                if re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value):
-                                    temp_var = re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value)
-                                else:
-                                    temp_var = re.search(r',\s*(.*?),\s*!dbg', current_value)
+                                temp_var = pattern_tool(current_value)
                                 if temp_var:
-                                    temp_var = temp_var.group(1).strip()
                                     for next_reg in reg_matches:
                                         var_reg = uni_backtrace_register(next_reg)
                                         if not var_reg:
@@ -217,31 +236,19 @@ def parse_bb_variables(cfg_str, seq_number):
                                         break
                                     size = calculate_type_size(base_type)
                                     temp_name = base_type + " " + temp_var
-                                    var_name = temp_var_reg[var_reg] + "-" + temp_name
+                                    var_name = temp_name
                                     var_size[temp_name] = size
                                     variables.append(var_name)
                                     var_temp_flag = False
                                     break
                             for next_reg in reg_matches:
                                 if next_reg in temp_var_reg or int(split_tool(next_reg, '%')) <= max_temp:
-                                    # if re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value):
-                                    #     var = re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value)
-                                    # else:
-                                    #     var = re.search(r',\s*(.*?),\s*!dbg', current_value)
-                                    # if var:
-                                    #     var = var.group(1).strip()  
-                                    # else:
-                                    #     var = next_reg
-                                    # supple_temp_reg(next_reg, var)
-                                    # if var in temp_var_reg:
-                                    #     base_type = temp_var_reg[var]
-                                    # temp_name = base_type + " " + var
                                     var_reg = uni_backtrace_register(next_reg)
                                     if not var_reg:
                                         var_temp_flag = False
                                         break
-                                    var = var.replace(next_reg, var_reg)
-                                    var_name = temp_var_reg[next_reg] + "-" + var
+                                    var = var.replace(current_reg, var_reg)
+                                    var_name = var
                                     var_size[var] = size
                                     variables.append(var_name)
                                     var_temp_flag = False
@@ -284,18 +291,22 @@ def uni_backtrace_register(next_reg):
             if '@' in current_value:
                 return None
             # 如果当前寄存器还有进一步的定义，继续回溯
-            reg_matches = re.findall(
-                r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+            reg_matches = re.findall(r'%\d+', current_value)
+            if 'getelementptr inbounds' in current_value:
+                temp_var = pattern_tool(current_value)
+                if temp_var:
+                    for next_reg in reg_matches:
+                        var_reg = uni_backtrace_register(next_reg)
+                        if not var_reg:
+                            var_temp_flag = False
+                            return None
+                        temp_var = temp_var.replace(next_reg, var_reg)
+                    return temp_var
             for next_reg in reg_matches:
                 if next_reg in var_map and current_reg not in reg_set:
                     if next_reg in temp_var_reg or int(split_tool(next_reg, "%")) <= max_temp:
-                        if re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value):
-                            var = re.search(r'\)\*+\s*,\s*(.*?)\s*,\s*!dbg', current_value)
-                        else:
-                            var = re.search(r',\s*(.*?),\s*!dbg', current_value)
-                        if var:
-                            var = var.group(1).strip()
-                        supple_temp_reg(next_reg, var)
+                        temp_var = pattern_tool(current_value)
+                        supple_temp_reg(next_reg, temp_var)
                         return next_reg
                     else:
                         queue.appendleft(next_reg)  
@@ -303,12 +314,12 @@ def uni_backtrace_register(next_reg):
     return last_reg
 
 
-def parse_gep(mycmd: str, array_var_name: str):
+def parse_gep(array_access_ins, array_var_name):
     """
     从 LLVM IR 风格的 getelementptr 指令字符串中解析出索引表达式。
 
     Args:
-        mycmd: 完整的 getelementptr 指令字符串。
+        array_access_ins: 完整的 getelementptr 指令字符串。
         array_var_name: 目标数组变量名。
 
     Returns:
@@ -321,17 +332,16 @@ def parse_gep(mycmd: str, array_var_name: str):
     aaa = array_var_name.find('%')
     array_name_struct = array_var_name[0:aaa]
     array_var_name = array_var_name[aaa:]
-    start = mycmd.find(array_var_name)
+    start = array_access_ins.find(array_var_name) + len(array_var_name) + 1
     if start == -1:
         raise ValueError(f"在指令中未找到数组名：{array_var_name}")
-    extracted = mycmd[start:].rstrip()
+    extracted = array_access_ins[start:].rstrip()
     if extracted.endswith(')'):
         extracted = extracted[:-1]
 
     # 2. 按逗号拆分，并去除所有 dbg 注释
     parts = [p.strip() for p in extracted.split(',')]
     parts = [p for p in parts if not p.startswith('!dbg')]
-    parts = parts[1:]  # 去掉第一个部分（通常是类型信息）
 
     # 3. 挑出所有 i64 开头的、值不为 0 的索引
     raw_indices = []
@@ -390,7 +400,6 @@ def parse_gep(mycmd: str, array_var_name: str):
 
     return indexing
 
-
 def get_dim_tem_num(array_access_ins, array_var_name):
     global temp_var_reg, var_map
     nor = parse_gep(array_access_ins, array_var_name)
@@ -412,7 +421,6 @@ def parse_execution_sequence(seq_str):
         sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
 
     return exec_sequence, sorted_seq, func_seq
-
 
 def build_variable_graph(bb_vars, exec_sequence, window_size=10):
     """构建变量访问图并计算权重"""
@@ -458,9 +466,9 @@ def generate_dot(edge_weights, var_size, func_name):
     for node in sorted(nodes):
         number += 1
         node_nums[node] = number
-        size = var_size.get(node.split('-')[1], -1)
+        # size = var_size.get(node.split('-')[1], -1)
         dot.append(
-            f'  {node_nums[node]} [label="{node}", size={size}, color=blue, shape=record];')
+            f'  {node_nums[node]} [label="{node}", size={var_size.get(node, -1)}, color=blue, shape=record];')
 
     # 添加边定义（按权重降序排列）
     for edge, weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
@@ -490,7 +498,7 @@ def main():
                         format='%(levelname)s - %(message)s')
 
     try:
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/lwip/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/505mcf/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
 
@@ -505,12 +513,12 @@ def main():
             # 处理数据
         exec_sequence, seq_number, func_seq = parse_execution_sequence(
             exec_content)
-        export_to_file(seq_number, "./seq_number.json")
-        export_to_file(func_seq, "./func_seq.json")
+        export_to_file(seq_number, f'{file_path}temp_seq_number.json')
+        export_to_file(func_seq, f'{file_path}temp_func_seq.json')
         struct_size = process_sizes(sizes_file)
         bb_vars, var_size = parse_bb_variables(cfg_content, seq_number)
-        export_to_file(bb_vars, "./bb_vars.json")
-        export_to_file(var_size, "./var_size.json")
+        export_to_file(bb_vars, f'{file_path}temp_bb_vars.json')
+        export_to_file(var_size, f'{file_path}temp_var_size.json')
 
         # 为每个函数生成DOT文件
         for func_name in bb_vars:
@@ -520,7 +528,7 @@ def main():
                 if (len(edge_weights) >= 1):
                     dot_output = generate_dot(
                         edge_weights, bb_vars[func_name]['size'], func_name)
-                    with open(f'{file_path}{func_name}_variable_access_graph.dot', 'w') as f:
+                    with open(f'{file_path}temp_{func_name}_variable_access_graph.dot', 'w') as f:
                         f.write(dot_output)
                     logging.info(
                         f"成功生成DOT文件：{func_name}_variable_access_graph.dot")
