@@ -148,15 +148,15 @@ def parse_bb_variables(cfg_str, seq_number):
                 var = pattern_tool(var)
                 black_name = f'{func_name}*{bb_num}'
                 if ']* ' in var:
-                    base_type, var_name = var.split("]* ", 1)
+                    base_type, reg_name = var.split("]* ", 1)
                     base_type += ']*'
                 elif ')*' in var:
-                    base_type, var_name = var.split(")*", 1)
-                    while var_name.startswith("*") or var_name.startswith(" "):
-                        var_name = var_name[1:]
+                    base_type, reg_name = var.split(")*", 1)
+                    while reg_name.startswith("*") or reg_name.startswith(" "):
+                        reg_name = reg_name[1:]
                     base_type = split_tool(base_type, " ", 0)
                 else:
-                    base_type, var_name = var.split(" ", 1)
+                    base_type, reg_name = var.split(" ", 1)
                 size = calculate_type_size(base_type)
                 if '@' not in reg_name:
                     if reg_name in temp_var_reg or int(split_tool(reg_name, '%')) <= max_temp:
@@ -498,7 +498,7 @@ def main():
                         format='%(levelname)s - %(message)s')
 
     try:
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/505mcf/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/525x264/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
 

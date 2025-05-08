@@ -67,6 +67,27 @@ def calculate_type_size(type_str):
     # 默认返回0
     return 0
 
+def uni_backtrace_register(next_reg):
+    global max_temp, var_map
+    last_reg = None
+    if next_reg in var_map:
+        queue = deque([next_reg])
+        reg_set = set()
+        while queue:
+            current_reg = queue.pop()
+            last_reg = current_reg
+            current_value = var_map.get(current_reg, "")
+            # 如果当前寄存器还有进一步的定义，继续回溯
+            reg_matches = re.findall(
+                r'%\d+', current_value)  # 使用 findall 查找多个寄存器
+            for next_reg in reg_matches:
+                if next_reg in var_map and current_reg not in reg_set:
+                    if int(split_tool(next_reg, '%')) <= max_temp:
+                        return next_reg
+                    else:
+                        queue.appendleft(next_reg)
+            reg_set.add(current_reg)
+    return last_reg
 # %114 = load %struct.ip_addr*, %struct.ip_addr** @ping_target, align 8, !dbg !15992
 # %115 = getelementptr inbounds %struct.ip_addr, %struct.ip_addr* %114, i32 0, i32 0, !dbg !15992
 # %116 = bitcast %union.anon* %115 to %struct.ip6_addr*, !dbg !15992
@@ -75,9 +96,9 @@ def calculate_type_size(type_str):
 # %119 = load i32, i32* %118, align 4, !dbg !15992
 # temp i32* [4 x i32]* %struct.ip6_addr* %struct.ip_addr* @ping_target, i32 0, i32 0, i32 0, i32 0, i64 0, i64 0
 # result i32* @ping_target, i32 0, i32 0, i64 0
-def uni_backtrace_register(next_reg):
+def backtrace_global(next_reg):
     global var_map, max_temp
-
+    offset_path_flag = True
     queue = deque([(next_reg, [], [])])  # (当前寄存器, 偏移链, 类型链)
     visited = set()
 
@@ -94,23 +115,17 @@ def uni_backtrace_register(next_reg):
             if ']* @' in current_value:
                 return None
             global_var = match_global.group(0)
+            if isMallocArray(current_value, global_var) >= 2:
+                return None 
             type_prefix = " ".join(type_path)  # 类型从底层到顶层
-            return f"{type_prefix} {global_var}, " + ', '.join(offset_path)
-
+            for index, value in enumerate(offset_path):
+                if '%' in value:
+                    offset_path[index] = uni_backtrace_register('%' + split_tool(value, '%')) 
+            return f"{global_var}, " + ', '.join(offset_path)
         reg_matches = re.findall(r'%\d+', current_value)
 
         if 'getelementptr inbounds' in current_value:
-            var = pattern_tool(current_value)
-            if ']* ' in var:
-                base_type, var_name = var.split("]* ", 1)
-                base_type += ']*'
-            elif ')*' in var:
-                base_type, var_name = var.split(")*", 1)
-                while var_name.startswith("*") or var_name.startswith(" "):
-                    var_name = var_name[1:]
-                base_type = split_tool(base_type, " ", 0)
-            else:
-                base_type, var_name = var.split(" ", 1)
+            base_type, var_name, var = pattern_tool(current_value)
             type_path.append(base_type)
             # 提取偏移量索引
             gep_indices = re.findall(r'i\d+\s+(-?\d+|%\d+)', var_name)
@@ -118,13 +133,25 @@ def uni_backtrace_register(next_reg):
 
             for reg in reg_matches:
                 if reg not in visited:
-                    queue.appendleft((reg, offset_path + gep_indices, type_path.copy()))
+                    queue.appendleft((reg, gep_indices + offset_path, type_path.copy()))
         else:
             for reg in reg_matches:
                 if reg not in visited:
                     queue.appendleft((reg, offset_path, type_path.copy()))
 
     return None
+
+def isMallocArray(line, var_name):
+    start = line.find(var_name)
+    if start == -1:
+        return -1
+    line = line[0:start].strip()
+    index = len(line) - 1
+    count = -1
+    while index >= 0 and line[index] == '*':
+            count += 1
+            index -= 1
+    return count + 1
 
 def pattern_tool(current_value):
     current_value = current_value.split(', align')[0].split(', !dbg')[0]
@@ -138,7 +165,17 @@ def pattern_tool(current_value):
         temp_var = temp_var.group(1).strip()
         if ', ' in temp_var:
             temp_var = temp_var.split(', ', 1)[1]
-    return temp_var
+    if ']* ' in temp_var:
+        base_type, var_name = temp_var.split("]* ", 1)
+        base_type += ']*'
+    elif ')*' in temp_var:
+        base_type, var_name = temp_var.split(")*", 1)
+        while var_name.startswith("*") or var_name.startswith(" "):
+            var_name = var_name[1:]
+        base_type = split_tool(base_type, " ", 0)
+    else:
+        base_type, var_name = temp_var.split(" ", 1)
+    return base_type, var_name, temp_var
 
 def parse_bb_variables(cfg_str):
     """从CFG DOT文件解析每个基本块的变量访问序列"""
@@ -193,29 +230,20 @@ def parse_bb_variables(cfg_str):
                     var = var.replace('<', '[').replace('>', ']')  
                 if re.search(r'\[\d+\s+x\s+.*?\]', var):
                     continue
-                var = pattern_tool(var)
-                if ']* ' in var:
-                    base_type, var_name = var.split("]* ", 1)
-                    base_type += ']*'
-                elif ')*' in var:
-                    base_type, var_name = var.split(")*", 1)
-                    while var_name.startswith("*") or var_name.startswith(" "):
-                        var_name = var_name[1:]
-                    base_type = split_tool(base_type, " ", 0)
-                else:
-                    base_type, var_name = var.split(" ", 1)
+                base_type, var_name, var = pattern_tool(var)
+                if isMallocArray(var, var_name) >= 2:
+                    continue 
                 size = calculate_type_size(base_type)
                 reg_matches = re.findall(r'%\d+', var_name)
                 if reg_matches and len(reg_matches) >= 1:
                     global_var_reg = reg_matches[0]
-                    global_var = uni_backtrace_register(global_var_reg)
+                    global_var = backtrace_global(global_var_reg)
                     if global_var:
                         var = var.replace(global_var_reg, global_var)
                     else:
                         continue
                 variables.append(var)
                 var_size[var] = size
-
         # 构建字典键
         bb_key = f"{func_name}*{bb_num}"
         bb_vars[bb_key] = variables
@@ -299,7 +327,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
     
     try:
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/505mcf/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/spec179art/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
@@ -324,7 +352,7 @@ def main():
         with open(f'{file_path}global_struct_variable_access_graph.dot', 'w') as f:
             f.write(dot_output)
         
-        logging.info("变量访问图已生成到 struct_variable_access_graph.dot")
+        logging.info("变量访问图已生成到 global_struct_variable_access_graph.dot")
         logging.info(f"统计信息：")
         logging.info(f"• 解析到 {len(bb_vars)} 个基本块的变量信息")
         logging.info(f"• 处理 {len(exec_sequence)} 个执行步骤")
