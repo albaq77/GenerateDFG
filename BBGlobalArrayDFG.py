@@ -29,6 +29,7 @@ def parse_bb_variables(cfg_str, seq_number):
     for func_name, bb_num, code_text in bb_blocks:
         # 如果进入了新的函数，清空 var_map
         if func_name != current_func:
+            print(func_name)
             var_map = {}
             temp_var_reg = set()
             current_func = func_name
@@ -91,7 +92,7 @@ def parse_bb_variables(cfg_str, seq_number):
                                 current_reg, current_value) if array_access_ins else current_value
                             # 检查是否有全局数组变量
                             global_var_match = global_var_pattern.findall(
-                                current_value)
+                                array_access_ins)
                             if global_var_match:
                                 array_var_name = global_var_match[-1]
                                 array_var_name = get_dim_tem_num(
@@ -327,7 +328,7 @@ def main():
 
     try:
 
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/structArray/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/spec179art/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
