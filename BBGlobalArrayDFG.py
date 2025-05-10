@@ -5,13 +5,16 @@ from collections import defaultdict, deque, OrderedDict
 
 temp_var_reg = set()
 var_map = {}
+array_dim_info = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+array_loop_info = defaultdict(list)
+array_access_info = list()
+seq_number = {}
 
-def parse_bb_variables(cfg_str, seq_number):
-    global temp_var_reg, var_map
+def parse_bb_variables(cfg_str):
+    global temp_var_reg, var_map, array_dim_info
     """从CFG DOT文件解析每个基本块的变量访问序列，并处理寄存器回溯"""
     bb_vars = {}
     var_size = {}
-
     # 正则表达式匹配基本块和其对应的指令
     bb_pattern = r"\[.*?\]@(.+?)\*(\d+)\n([\s\S]*?)(?=\n\[.*?\]@.+?\*\d+|\Z)"
     loc_pattern = re.compile(r'Basic Block Source Location: (\S+:\d+)')
@@ -29,7 +32,7 @@ def parse_bb_variables(cfg_str, seq_number):
     for func_name, bb_num, code_text in bb_blocks:
         # 如果进入了新的函数，清空 var_map
         if func_name != current_func:
-            print(func_name)
+            logging.info(f"• 解析到 {func_name}")
             var_map = {}
             temp_var_reg = set()
             current_func = func_name
@@ -66,6 +69,9 @@ def parse_bb_variables(cfg_str, seq_number):
             if var_match:
                 black_name = f'{func_name}*{bb_num}'
                 var = var_match.group(1).strip()
+                if ', <' in line:
+                    var = var.replace('<', '[').replace('>', ']')
+                # base_type, var_name, var = pattern_tool(var)
                 var = re.search(r',\s*(.*?),\s*align', var)
                 if var:
                     var = var.group(1).strip()
@@ -73,13 +79,10 @@ def parse_bb_variables(cfg_str, seq_number):
                     # 检查 reg_name 本身是否是全局数组变量
                     global_var_match = global_var_pattern.findall(reg_name)
                     if global_var_match:
+                        array_var_name = parse_array_tool(global_var_match, reg_name, black_name, source_location)
                         # 如果是全局数组变量，直接添加提取的部分
-                        array_var_name = global_var_match[-1]
-                        array_var_name = get_dim_tem_num(
-                            reg_name, array_var_name) + "-" + source_location
-                        if black_name in seq_number:
-                            array_var_name += "-" + str(seq_number[black_name])
-                        final_vars.append(array_var_name)
+                        if array_var_name:
+                            final_vars.append(array_var_name)
                     elif reg_name in var_map:
                         array_access_ins = None
                         # 如果是寄存器，进行回溯替换
@@ -94,13 +97,9 @@ def parse_bb_variables(cfg_str, seq_number):
                             global_var_match = global_var_pattern.findall(
                                 array_access_ins)
                             if global_var_match:
-                                array_var_name = global_var_match[-1]
-                                array_var_name = get_dim_tem_num(
-                                    array_access_ins, array_var_name) + "-" + source_location
-                                if black_name in seq_number:
-                                    array_var_name += "-" + str(seq_number[black_name])
-                                # 找到全局数组变量，停止回溯并添加到 final_vars
-                                final_vars.append(array_var_name)
+                                array_var_name = parse_array_tool(global_var_match, array_access_ins, black_name, source_location)
+                                if array_var_name:
+                                    final_vars.append(array_var_name)
                                 break
                             # 如果当前寄存器还有进一步的定义，继续回溯
                             reg_matches = re.findall(
@@ -112,9 +111,52 @@ def parse_bb_variables(cfg_str, seq_number):
 
         bb_key = f"{func_name}*{bb_num}"
         bb_vars[bb_key] = final_vars
+
         logging.debug(f"Parsed {bb_key} variables: {final_vars}")
 
     return bb_vars, var_size
+
+def parse_array_tool(global_var_match, array_access_ins, black_name, source_location):
+    global array_dim_info, array_loop_info, array_access_info, seq_number
+    loop_num = seq_number.get(black_name, 0)
+    if loop_num == 0:
+        return None
+    array_var_name = global_var_match[-1]
+    array_var_name, array_name = get_dim_tem_num(array_access_ins, array_var_name)
+    array_dim_info[array_name][array_var_name][source_location] += loop_num
+    source_loop = source_location + "-" + str(loop_num)
+    array_loop_info[source_loop].append(array_var_name)
+    array_var_name += "-" + source_loop
+    array_access_info.append(array_var_name)
+    return array_var_name
+
+def pattern_tool(current_value):
+    current_value = current_value.split(', align')[0].split(', !dbg')[0]
+    if ')* ' not in current_value:
+        search_str = ',\s*(.*)$'
+        temp_var = re.search(f'{search_str}', current_value)
+        temp_var = temp_var.group(1).strip()
+    else:
+        search_str = '\)\*+\s*,?\s*(.*)$'
+        temp_var = re.search(f'{search_str}', current_value)
+        temp_var = temp_var.group(1).strip()
+        if ', ' in temp_var:
+            temp_var = temp_var.split(', ', 1)[1]
+    if ']* ' in temp_var:
+        base_type, var_name = temp_var.split("]* ", 1)
+        base_type += ']*'
+    elif ')* ' in temp_var:
+        base_type, var_name = temp_var.split(")* ", 1)
+        while var_name.startswith("*") or var_name.startswith(" "):
+            var_name = var_name[1:]
+        base_type = split_tool(base_type, " ", 0)
+    else:
+        base_type, var_name = temp_var.split(" ", 1)
+    return base_type, var_name, temp_var
+
+def split_tool(value, flag, number=-1):
+    res = value.split(flag)
+    return res[number]
 
 def uni_backtrace_register(next_reg):
     global temp_var_reg, var_map
@@ -227,25 +269,26 @@ def parse_gep(mycmd: str, array_var_name: str):
     name = array_name_struct + array_var_name
     indexing = name + ''.join(f'[{idx}]' for idx in mapped)
 
-    return indexing
+    return indexing, name
 
 def get_dim_tem_num(array_access_ins, array_var_name):
     global temp_var_reg, var_map
-    nor = parse_gep(array_access_ins, array_var_name)
+    nor, var_name = parse_gep(array_access_ins, array_var_name)
     ret = nor.replace("%%", "%")
-    return ret
+    return ret, var_name
 
 def parse_execution_sequence(seq_str):
+    global seq_number
     """解析执行序列，处理ANSI转义字符和无效输入"""
     clean_str = re.sub(r'\x1b\[[0-9;]*m', '', seq_str)
     # 使用正则表达式提取每行的完整函数和编号
     exec_sequence = re.findall(r'(\w+\*\d+)', clean_str)
-    seq_number = defaultdict(int)
+    temp_seq_number = defaultdict(int)
     for bb in exec_sequence:
-        seq_number[bb] += 1
-    sorted_seq = dict(
-        sorted(seq_number.items(), key=lambda x: x[1], reverse=True))
-    return exec_sequence, sorted_seq
+        temp_seq_number[bb] += 1
+    seq_number = dict(
+        sorted(temp_seq_number.items(), key=lambda x: x[1], reverse=True))
+    return exec_sequence
 
 def build_variable_graph(bb_vars, exec_sequence, window_size=10):
     """构建变量访问图并计算权重"""
@@ -279,7 +322,6 @@ def generate_dot(edge_weights):
     """生成优化的DOT文件"""
     dot = ["strict digraph {"]
     number = 0
-    node_nums = {}
 
     # 创建节点集合
     nodes = set()
@@ -290,23 +332,84 @@ def generate_dot(edge_weights):
     # 添加节点定义
     for node in sorted(nodes):
         number += 1
-        node_nums[node] = number
         dot.append(
-            f'  {node_nums[node]} [label="{node}", color=blue, shape=record];')
+            f'  {number} [label="{node}", color=blue, shape=record];')
 
     lastNode = None
     # 添加节点定义
-    for node in sorted(nodes):
+    for node in range(1, number + 1):
         if lastNode:
             dot.append(
-                f'  {node_nums[lastNode]} -> {node_nums[node]} [label="weight=1", weight="1"];')
+                f'  {lastNode} -> {node} [label="weight=1", weight="1"];')
         lastNode = node
 
-    # # 添加边定义（按权重降序排列）
-    # for (src, dest), weight in sorted(edge_weights.items(), key=lambda x: -x[1]):
-    #     # dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight={weight}", weight="{weight}"];')
-    #     dot.append(f'  {node_nums[src]} -> {node_nums[dest]} [label="weight=1", weight="1"];')
+    dot.append("}")
+    return '\n'.join(dot)
 
+def generate_access_dot(): 
+    global array_access_info
+    number = 0
+
+    dot = ["strict digraph {"]
+    for node in array_access_info:
+        number += 1
+        dot.append(
+            f'  {number} [label="{node}", color=blue, shape=record];')
+
+    lastNode = None
+    # 添加节点定义
+    for node in range(1, number + 1):
+        if lastNode:
+            dot.append(
+                f'  {lastNode} -> {node} [label="weight=1", weight="1"];')
+        lastNode = node
+    dot.append("}")
+    return '\n'.join(dot)
+
+def generate_dim_dot(): 
+    global array_dim_info
+    result = defaultdict(lambda : {'dim': [], 'loop': int})
+    index_pattern = r'\[(%\d+|\d+)\]'
+    for array_var, array_var_access in array_dim_info.items():
+        length = array_var.count('[')
+        num = 0
+        dim = [0] * length
+        for access_mode, source_loop in array_var_access.items():
+            indices = re.findall(index_pattern, split_tool(access_mode, '@'))
+            max_index = -1
+            max_position = -1
+            for index, indice in enumerate(indices):
+                if '%' in indice:
+                    current_index = int(split_tool(indice, '%'))
+                    if current_index > max_index:
+                        max_position = index
+                        max_index = current_index
+            if max_position != -1:
+                for source, loop in source_loop.items():
+                    num += loop
+                    dim[max_position] += loop
+        if num != 0:
+            result[array_var]['dim'] = dim
+            result[array_var]['loop'] = num
+
+    number = 0
+
+    dot = ["strict digraph {"]
+    for node, value in sorted(result.items(), key=lambda item: item[1]['loop'], reverse=True):
+        number += 1
+        node_str = f'  {number} [label="{node}", '
+        for index, size in enumerate(value['dim']):
+            node_str += f'{chr(65 + index)}={size}, '
+        node_str += "color=blue, shape=record];"
+        dot.append(node_str)
+
+    lastNode = None
+    # 添加节点定义
+    for node in range(1, number + 1):
+        if lastNode:
+            dot.append(
+                f'  {lastNode} -> {node} [label="weight=1", weight="1"];')
+        lastNode = node
     dot.append("}")
     return '\n'.join(dot)
 
@@ -323,12 +426,12 @@ def export_to_file(bb_vars, output_path):
         logging.error(f"发生意外错误：{str(e)}")
 
 def main():
+    global array_dim_info, array_loop_info, array_access_info, seq_number
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)s - %(message)s')
-
     try:
 
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/spec179art/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/525x264/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
@@ -341,22 +444,31 @@ def main():
             exec_content = f.read()
         # 处理数据
             # 处理数据
-        exec_sequence, seq_number = parse_execution_sequence(exec_content)
+        exec_sequence = parse_execution_sequence(exec_content)
         export_to_file(seq_number, f'{file_path}global_array_seq_number.json')
-        bb_vars, var_size = parse_bb_variables(cfg_content, seq_number)
+        bb_vars, var_size = parse_bb_variables(cfg_content)
+        array_access_info = sorted(array_access_info, key=lambda item: int(split_tool(item, '-')), reverse=True)
+        array_loop_info = OrderedDict(sorted(array_loop_info.items(), key=lambda item: int(split_tool(item[0], '-')), reverse=True))
+        export_to_file(array_dim_info, f'{file_path}global_array_dim_info.json')
+        export_to_file(array_loop_info, f'{file_path}global_array_loop_info.json')
+        export_to_file(array_access_info, f'{file_path}global_array_access_info.json')
         export_to_file(bb_vars, f'{file_path}global_array_bb_vars.json')
-        edge_weights = build_variable_graph(bb_vars, exec_sequence)
-
+        # edge_weights = build_variable_graph(bb_vars, exec_sequence)
         # 生成输出
-        dot_output = generate_dot(edge_weights)
+        # dot_output = generate_dot(edge_weights)
+
+        array_access_dot = generate_access_dot()
+        array_dim_dot = generate_dim_dot()
         with open(f'{file_path}global_array_variable_access_graph.dot', 'w') as f:
-            f.write(dot_output)
+            f.write(array_access_dot)
+        with open(f'{file_path}array_global_array_variable_access_graph.dot', 'w') as f:
+            f.write(array_dim_dot)
 
         logging.info(f'变量访问图已生成到 {file_path}global_array_variable_access_graph.dot')
         logging.info(f"统计信息：")
         logging.info(f"• 解析到 {len(bb_vars)} 个基本块的变量信息")
         logging.info(f"• 处理 {len(exec_sequence)} 个执行步骤")
-        logging.info(f"• 生成 {len(edge_weights)} 条依赖边")
+        # logging.info(f"• 生成 {len(edge_weights)} 条依赖边")
 
     except Exception as e:
         logging.error(f"处理失败: {str(e)}")

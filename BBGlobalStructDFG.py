@@ -327,7 +327,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
     
     try:
-        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/spec179art/'
+        file_path = '/mnt/hgfs/graduate/codeProgram/HUAWEIProject/DFG-NewGraph-Changer-main/BBDyAnalysis/input/spec183equake/'
         with open(f'{file_path}GlobalAndStructSizes.txt', 'r') as f:
             sizes_file = f.read()
         
